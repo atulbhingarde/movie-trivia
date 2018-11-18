@@ -38,7 +38,7 @@ const getMovieQuestions = function() {
 //    while ( shouldIRepeat === true ) {
     // console.log(" will repeat " + shouldIRepeat );
     for ( i = 0; ( i < MaxNumInQList ) ; i++) {
-        queryURL = `http://www.omdbapi.com/?apikey=8acace67&t=${movieQuiz[i]}`;
+        queryURL = `https://www.omdbapi.com/?apikey=8acace67&t=${movieQuiz[i]}`;
         $.ajax({
             url: queryURL,
             method: 'GET'
