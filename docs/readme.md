@@ -1,0 +1,2 @@
+# Documentation
+This is the documentation section for the project. REMEMBER: This is a **PUBLIC** repository. DO NOT place any documents in here that contain any sensitive or confidential information that should not be viewable by the general public.
