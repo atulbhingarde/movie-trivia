@@ -52,7 +52,7 @@ const getMovieQuestions = function() {
                 Plot: response.Plot
                 };
                quizQuestions.push(objMovie);
-               console.log(objMovie.mytitle);
+               console.log(objMovie.Title);
                // console.log(" hi there " + quizQuestions) ; 
             }
         });
