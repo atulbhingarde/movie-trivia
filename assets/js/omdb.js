@@ -65,7 +65,7 @@ const getMovieQuestions = function() {
     var SelectedHonor = Math.floor(Math.random() * MaxNumInQList);
     // console.log(" at end " + " | " + SelectedHonor );
     if ( quizQuestions[SelectedHonor]  !== undefined ) {
-    console.log(" at end " + " | " + SelectedHonor + " | " + quizQuestions[SelectedHonor].Title + " | "+quizQuestions[SelectedHonor].Plot);
+    // console.log(" at end " + " | " + SelectedHonor + " | " + quizQuestions[SelectedHonor].Title + " | "+quizQuestions[SelectedHonor].Plot);
     // console.log(" here finally " + MaxNumInQList + " " + SelectedHonor + " " + quizQuestions[SelectrandomOutOfMax[0]].mytitle+"|" + quizQuestions[SelectrandomOutOfMax[1]].mytitle + "|" + quizQuestions[SelectrandomOutOfMax[2]].mytitle + "|" + quizQuestions[SelectrandomOutOfMax[3]].mytitle );
 
     var ChooseButton = document.createElement("TEXT");     // Create a buttonelement
