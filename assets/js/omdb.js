@@ -113,7 +113,7 @@ const checkIfItMatches = function(thistext) {
 
     // alert(TexttargetElement);
     for(i=0;i<MaxNumInQList;i++) { 
-        if ( ( thistext === quizQuestions[i].Title ) && ( TexttargetElement === quizQuestions[i].Plot ) )  { console.log("keep it up"); } else { console.log("best of luck Next time !")}
+        if ( ( thistext === quizQuestions[i].Title ) && ( TexttargetElement === quizQuestions[i].Plot ) )  { alert("you are right ! keep it up"); } else { alert(" Sorry ! best of luck Next time !")}
     }
 
 };
