@@ -29,7 +29,7 @@ const getMovieQuestions = function() {
     while ( SelectrandomOutOfMax.length < MaxNumInQList )
      {
          currentStart=0;
-         TempSelectrandomOutOf = Math.floor(Math.random() * numQuestions);
+         TempSelectrandomOutOf = Math.floor(Math.random() * movieList.length );
          // console.log("this is"+TempSelectrandomOutOf);
          if ( SelectrandomOutOfMax.indexOf(TempSelectrandomOutOf) == -1 ) { SelectrandomOutOfMax.push(TempSelectrandomOutOf) ;  }
          // SelectrandomOutOfMax.push(TempSelectrandomOutOf) ; 
