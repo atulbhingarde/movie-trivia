@@ -107,7 +107,7 @@ const getMovieQuestions = function() {
 //Prep = function() { getMovieQuestions();  listit();};
 const OnSelection = function(link) {
     var tempText = link.innerText ; 
-    alert("hi there "+tempText);
+    // alert("hi there "+tempText);
     checkIfItMatches(tempText);
 };
 
@@ -121,6 +121,6 @@ const checkIfItMatches = function(thistext) {
     for(i=0;i<MaxNumInQList;i++) { 
         if ( ( thistext === quizQuestions[i].Title ) && ( TexttargetElement === quizQuestions[i].Plot  ) )  { found = true ; located = i ; } 
     }
-    if ( found ) { alert(" keep it up ! you are right about title " + thistext + " is indeed " + quizQuestions[located].Plot  );} else {console.log("better luck next time");} 
+    if ( found ) { alert(" keep it up ! you are right about title " + thistext + " is indeed " + quizQuestions[located].Plot  );} else {alert("better luck next time");} 
 
 };
