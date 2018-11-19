@@ -1,7 +1,7 @@
 const movieQuiz = [];
-const quizQuestions = [];
-const endpointUrls = [];
-const MaxNumInQList = 4;
+const quizQuestions = [] ;
+const endpointUrls = [] ;
+const MaxNumInQList = 4 ;
 $('#start').on('click', function () {
     movieQuiz.length=0;
     endpointUrls.length=0; 
@@ -66,24 +66,25 @@ $('#next').on('click', function () {
     var ReqLen = 4;
     console.log("Here really ! 1" + $(this).data('qid'));
     let val = $(this).data('qid');
-    let newVal = parseInt(val) + 1;
+    let newVal = parseInt(val) ; // + 1;
     $(this).data('qid', newVal);
     // $('#movieScreen').html(`<p class="p-3">${quizQuestions[newVal].Plot}</p>`);
     MaxLength=quizQuestions.length ; 
     console.log(" maxlength " + MaxLength);
 
     // select at random one from this 
-    RealmovieQuiz.push(Math.floor(Math.random() * MaxLength));
+    // RealmovieQuiz.push(Math.floor(Math.random() * MaxLength));
     
     // select other 3 as dummy 
-    while ( RealmovieQuiz.length < MaxNumInQList )
+    while ( RealmovieQuiz.length < ReqLen )
      {
         // set the temporary integer 
         tempInt = Math.floor(Math.random() * MaxLength) ; 
         // check if it is already in the array to ensure no duplicate answers and avoid correct answer as well
         // if it is not in the array add it to the array 
-        if ( ( RealmovieQuiz.indexOf(tempInt) === -1 ) && ( typeof(quizQuestions[tempInt].Plot) !==  undefined ) ) { RealmovieQuiz.push(tempInt) ; }
+        if ( ( RealmovieQuiz.indexOf(tempInt) === -1 ) && ( typeof(quizQuestions[tempInt]) !==  'undefined' ) ) { RealmovieQuiz.push(tempInt) ; }
      }
+     console.log(RealmovieQuiz);
     
     var SelectedHonor = Math.floor(Math.random() * MaxNumInQList);
     var ChooseButton = document.createElement("TEXT");     // Create a buttonelement
