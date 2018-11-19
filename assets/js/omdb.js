@@ -1,119 +1,143 @@
-// Array to store Movie Title and Plot from API query
-var quizQuestions = [];
-MaxNumInQList = 4 ;
+const movieQuiz = [];
+const quizQuestions = [];
+const endpointUrls = [];
+const MaxNumInQList = 4;
+$('#start').on('click', function () {
+    movieQuiz.length=0;
+    endpointUrls.length=0; 
+    quizQuestions.length=0; 
+    const getMovies = function () {
+        for (i=0; i < 10; i++) {
+            movieQuiz.push(movieList[Math.floor(Math.random() * movieList.length)]);
+        }
+    };
+    // METHOD USING ASYNC LIBRARY
+    async.series([
+        function (callback) {
+            // Populate the movieQuiz array with Movie Titles
+            console.log('S1:Func-1');
+            for (let i = 0; i < 10; i++) {
+                movieQuiz.push(movieList[Math.floor(Math.random() * movieList.length)]);
+            }
+            callback(null, 'S1:Func-1, finished.');
+        },
+        function (callback) {
+            // Generate the Endpoint Urls and store them in an array
+            console.log('S1:Func-2');
+            for (let i = 0; i < movieQuiz.length; i++) {
+                uri = encodeURI(`https://www.omdbapi.com/?apikey=8acace67&t=${movieQuiz[i]}`);
+                endpointUrls.push(uri);
+            }
+            callback(null, 'S1:Func-2, finished.');
+        },
+        function (callback) {
+            // Query the OMDB api and get the details for each movie
+            console.log('S1:Func-3');
+            let counter = 0;
+            const getMovieDetails = function () {
+                if (endpointUrls[counter]) {
+                    $.ajax({
+                        url: endpointUrls[counter],
+                        method: 'GET'
+                    }).done(function (response) {
+                        quizQuestions.push(response);
+                        counter++;
+                        getMovieDetails();
+                    });
+                } else {
+                    console.table(quizQuestions);
+                    // $('#movieScreen').html(`<p class="p-3">${quizQuestions[0].Plot}</p>`);
+                }
+            };
+            getMovieDetails();
+            callback(null, 'S1:Func-3, finished.');
+        }
+    ]);
+    
+    quizQuestions.length=0; 
+    
+});
 
-/* const sleep = (milliseconds) => {
-    return new Promise(resolve => setTimeout(resolve, milliseconds))
-  } */
-const getMovieQuestions = function() {
-    const numQuestions = 10;
-    const movieQuiz = [];
-    // const MaxNumInQList = 4 ;
 
-    // Select X number of movies from movieList array and add them to the movieQuiz array
-    for(var i=0; i < numQuestions; i++) {
-        movieQuiz.push(movieList[Math.floor(Math.random() * movieList.length)]);
-    }
-    // lets get 
-    //  one correct pair (plot and title) 
-    // and three incorrect titles
-    // Provide plot and all answers to the user to select one of them 
-    // 
-    // select one random out of the number of questions we have selected
-    // create an array of 4 
+// CALLBACK
+$('#next').on('click', function () {
+    var RealmovieQuiz = [];
+    RealmovieQuiz.length = 0 ; 
+    var ReqLen = 4;
+    console.log("Here really ! 1" + $(this).data('qid'));
+    let val = $(this).data('qid');
+    let newVal = parseInt(val) + 1;
+    $(this).data('qid', newVal);
+    // $('#movieScreen').html(`<p class="p-3">${quizQuestions[newVal].Plot}</p>`);
+    MaxLength=quizQuestions.length ; 
+    console.log(" maxlength " + MaxLength);
 
-    // const MaxQs = 4;
-    const SelectrandomOutOfMax = [];
-    while ( SelectrandomOutOfMax.length < MaxNumInQList )
+    // select at random one from this 
+    RealmovieQuiz.push(Math.floor(Math.random() * MaxLength));
+    
+    // select other 3 as dummy 
+    while ( RealmovieQuiz.length < MaxNumInQList )
      {
-         currentStart=0;
-         TempSelectrandomOutOf = Math.floor(Math.random() * numQuestions);
-         // console.log("this is"+TempSelectrandomOutOf);
-         if ( SelectrandomOutOfMax.indexOf(TempSelectrandomOutOf) == -1 ) { SelectrandomOutOfMax.push(TempSelectrandomOutOf) ;  }
-         // SelectrandomOutOfMax.push(TempSelectrandomOutOf) ; 
-         // console.log("another "+SelectrandomOutOfMax.length);    
+        // set the temporary integer 
+        tempInt = Math.floor(Math.random() * MaxLength) ; 
+        // check if it is already in the array to ensure no duplicate answers and avoid correct answer as well
+        // if it is not in the array add it to the array 
+        if ( ( RealmovieQuiz.indexOf(tempInt) === -1 ) && ( typeof(quizQuestions[tempInt].Plot) !==  undefined ) ) { RealmovieQuiz.push(tempInt) ; }
      }
     
-    shouldIRepeat = true ; 
-//    while ( shouldIRepeat === true ) {
-    // console.log(" will repeat " + shouldIRepeat );
-    for ( i = 0; ( i < MaxNumInQList ) ; i++) {
-        queryURL = `https://www.omdbapi.com/?apikey=8acace67&t=${movieQuiz[i]}`;
-        $.ajax({
-            url: queryURL,
-            method: 'GET'
-        }).then(function (response) {
-            if ( typeof response.Title === 'undefined' || ( quizQuestions.indexOf(response.title) !== -1 )  ) 
-             { console.log(" some issue" + response.Title+" |"+response.Plot); getMovieQuestions() ; } 
-            else 
-             { // console.log(response.Title+" | "+response.Plot); 
-               var objMovie = {
-                Title: response.Title,
-                Plot: response.Plot
-                };
-               quizQuestions.push(objMovie);
-               console.log(objMovie.Title);
-               // console.log(" hi there " + quizQuestions) ; 
-            }
-        });
-    }
-// }
-
-// listit = function(){
-
-    // get a random pair out of shortlist 
     var SelectedHonor = Math.floor(Math.random() * MaxNumInQList);
-    // console.log(" at end " + " | " + SelectedHonor );
-    if ( quizQuestions[SelectedHonor]  !== undefined ) {
-    // console.log(" at end " + " | " + SelectedHonor + " | " + quizQuestions[SelectedHonor].Title + " | "+quizQuestions[SelectedHonor].Plot);
-    // console.log(" here finally " + MaxNumInQList + " " + SelectedHonor + " " + quizQuestions[SelectrandomOutOfMax[0]].mytitle+"|" + quizQuestions[SelectrandomOutOfMax[1]].mytitle + "|" + quizQuestions[SelectrandomOutOfMax[2]].mytitle + "|" + quizQuestions[SelectrandomOutOfMax[3]].mytitle );
-
     var ChooseButton = document.createElement("TEXT");     // Create a buttonelement
-    TempButtonId =  'MyText' ; 
-    var targetElement = document.getElementById(TempButtonId) ; 
+    TempButtonId =  'MyText' ;
+    var targetElement = document.getElementById(TempButtonId) ;
 
     if ( targetElement !== null ) {
-        // element does exist lets delete it 
+        // element does exist lets delete it
         targetElement.parentNode.removeChild(targetElement);
     }
-    ChooseButton.id = TempButtonId ; 
+    ChooseButton.id = TempButtonId ;
     var t = document.createTextNode(" "+quizQuestions[SelectedHonor].Plot+" ") ;   // Create a text node
     ChooseButton.appendChild(t);                                          // Append the text to <p>
-    document.getElementById("movieScreen").appendChild(ChooseButton);           // Append <p> to <div> with id="myDIV" 
-        
-    for(ButtonsInd=0; ButtonsInd < MaxNumInQList ; ButtonsInd++) {
-        TempButtonId =  'SelectThis'+ ButtonsInd ; 
-        targetElement = document.getElementById(TempButtonId) ; 
+    document.getElementById("movieScreen").appendChild(ChooseButton);           // Append <p> to <div> with id="myDIV"
+
+     // console.log("this should be unique " + RealmovieQuiz);
+     for(ButtonsInd=0; ButtonsInd < MaxNumInQList ; ButtonsInd++) {
+        TempButtonId =  'SelectThis'+ ButtonsInd ;
+        targetElement = document.getElementById(TempButtonId) ;
         if ( targetElement !== null ) {
-            // element does exist lets delete it 
+            // element does exist lets delete it
             targetElement.parentNode.removeChild(targetElement);
         }
-        
+
         ChooseButton = document.createElement("BUTTON");     // Create a buttonelement
         ChooseButton.setAttribute("onclick","OnSelection(this)");
-
-        ChooseButton.id =TempButtonId ; 
+        ChooseButton.className = "btn btn-primary"; 
+        ChooseButton.id = TempButtonId ;
         t = document.createTextNode(" "+quizQuestions[ButtonsInd].Title+" ") ;   // Create a text node
         ChooseButton.appendChild(t);                                          // Append the text to <p>
-        document.getElementById("answers").prepend(ChooseButton);           // Append <p> to <div> with id="myDIV" 
-        
+        document.getElementById("answers").prepend(ChooseButton);           // Append <p> to <div> with id="myDIV"
 
-    } }
-};
-//Prep = function() { getMovieQuestions();  listit();};
+
+    }
+});
 const OnSelection = function(link) {
-    var tempText = link.innerText ; 
-    alert("hi there "+tempText);
+    var tempText = link.innerText ;
+    // alert("hi there |"+tempText+"|");
     checkIfItMatches(tempText);
 };
 
 const checkIfItMatches = function(thistext) {
-    TempButtonId =  'MyText' ; 
-    var TexttargetElement = document.getElementById(TempButtonId).innerText ; 
+    TempButtonId =  'MyText' ;
+    x = document.getElementById(TempButtonId) ; 
+    var TexttargetElement = x.innerText ;
 
     // alert(TexttargetElement);
-    for(i=0;i<MaxNumInQList;i++) { 
-        if ( ( thistext === quizQuestions[i].Title ) && ( TexttargetElement === quizQuestions[i].Plot ) )  { alert("you are right ! keep it up"); } else { alert(" Sorry ! best of luck Next time !")}
+    found = false ; 
+    for(i=0;i<MaxNumInQList;i++) {
+        if ( ( thistext === quizQuestions[i].Title ) && ( TexttargetElement === quizQuestions[i].Plot ) )  { found = true ; } 
+        // alert("you are right ! keep it up"); } else { alert(" Sorry ! best of luck Next time !")}
     }
+    if ( found ) { 
+         alert("you are right ! keep it up"); 
+        } else { alert(" Sorry ! best of luck Next time !"); } 
 
 };

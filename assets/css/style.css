@@ -43,7 +43,13 @@ body {
     width: 100%;
     object-fit: cover;
 }
-.button1 {
+
+/* Modal Dialog */
+.modal-dialog video {
+    width: 100%;
+}
+
+button1 {
     background-color: rgb(78, 71, 139); /* Green */
     border: none;
     color: white;
@@ -64,7 +70,7 @@ body {
     display: inline-block;
     font-size: 30px;
     border-radius: 10px;
-    margin: 5px ; 
+    margin: 5px ;
 }
 
 *[id ^= 'MyText']{
@@ -77,5 +83,5 @@ body {
     display: inline-block;
     font-size: 30px;
     border-radius: 15px;
-    margin: 5px ; 
+    margin: 5px ;
 }
