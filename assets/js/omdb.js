@@ -117,9 +117,10 @@ const checkIfItMatches = function(thistext) {
 
     // alert(TexttargetElement);
     found = false ; 
+    located = -1 ;  
     for(i=0;i<MaxNumInQList;i++) { 
-        if ( ( thistext === quizQuestions[i].Title ) && ( TexttargetElement === quizQuestions[i].Plot ) )  { found = true ; } 
+        if ( ( thistext === quizQuestions[i].Title ) && ( TexttargetElement === quizQuestions[i].Plot  ) )  { found = true ; located = i ; } 
     }
-    if ( found ) { console.log(" keep it up " );} else {console.log("better luck next time");} 
+    if ( found ) { alert(" keep it up ! you are right about title " + thistext + " is indeed " + quizQuestions[located].Plot  );} else {console.log("better luck next time");} 
 
 };
