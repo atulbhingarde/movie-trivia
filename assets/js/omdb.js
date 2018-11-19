@@ -70,8 +70,12 @@ const getMovieQuestions = function() {
     if ( quizQuestions[SelectedHonor]  !== undefined ) {
     // console.log(" at end " + " | " + SelectedHonor + " | " + quizQuestions[SelectedHonor].Title + " | "+quizQuestions[SelectedHonor].Plot);
     // console.log(" here finally " + MaxNumInQList + " " + SelectedHonor + " " + quizQuestions[SelectrandomOutOfMax[0]].mytitle+"|" + quizQuestions[SelectrandomOutOfMax[1]].mytitle + "|" + quizQuestions[SelectrandomOutOfMax[2]].mytitle + "|" + quizQuestions[SelectrandomOutOfMax[3]].mytitle );
+    
     // setup the plot 
-    var ChooseButton = document.createElement("TEXT");     // Create a buttonelement
+    // commented timebeing for sake of jquery
+
+    
+    /* var ChooseButton = document.createElement("TEXT");     // Create a buttonelement
     TempButtonId =  'MyText' ; 
     var targetElement = document.getElementById(TempButtonId) ; 
 
@@ -84,15 +88,20 @@ const getMovieQuestions = function() {
     ChooseButton.appendChild(t);                                          // Append the text to <p>
     document.getElementById("movieScreen").appendChild(ChooseButton);           // Append <p> to <div> with id="myDIV" 
     // end of setting up the plot
+    */
+    $('#movieScreen').html(`<p class="p-3" id="MyText">${quizQuestions[SelectedHonor].Plot}</p>`);
+
     console.log("here " + quizQuestions[0].Title);    
     for(ButtonsInd=0; ButtonsInd < MaxNumInQList ; ButtonsInd++) {
-        TempButtonId =  'SelectThis'+ ButtonsInd ; 
+        var TempButtonId =  'SelectThis'+ ButtonsInd ; 
+        // rremove the button if it exists 
         targetElement = document.getElementById(TempButtonId) ; 
         if ( targetElement !== null ) {
             // element does exist lets delete it 
             targetElement.parentNode.removeChild(targetElement);
         }
-        
+        // add a button      
+        /* 
         ChooseButton = document.createElement("BUTTON");     // Create a buttonelement
         ChooseButton.setAttribute("onclick","OnSelection(this)");
 
@@ -100,6 +109,9 @@ const getMovieQuestions = function() {
         t = document.createTextNode(" "+quizQuestions[ButtonsInd].Title+" ") ;   // Create a text node
         ChooseButton.appendChild(t);                                          // Append the text to <p>
         document.getElementById("answers").prepend(ChooseButton);           // Append <p> to <div> with id="myDIV" 
+        */
+        $('#answers').prepend(`<button class="p-3" onclick="OnSelection(this)" id="`+TempButtonId+`">${quizQuestions[ButtonsInd].Title}</button>`);
+
         console.log("here " + quizQuestions[ButtonsInd].Title);      
 
     } }
@@ -124,3 +136,4 @@ const checkIfItMatches = function(thistext) {
     if ( found ) { alert(" keep it up ! you are right about title " + thistext + " is indeed " + quizQuestions[located].Plot  );} else {alert("better luck next time");} 
 
 };
+//   // $('#movieScreen').html(`<p class="p-3">${quizQuestions[0].Plot}</p>`);
