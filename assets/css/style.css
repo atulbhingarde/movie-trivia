@@ -85,3 +85,34 @@ body {
     border-radius: 15px;
     margin: 5px ;
 }
+*[id ^= 'MyCounters']{
+    background-color: gray; /* Green */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 30px;
+    border-radius: 10px;
+    margin: 5px ;
+}
+.Dice {
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted black;
+}
+
+.Dice .DiceText {
+    visibility: hidden;
+    width: 120px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 1;
+}
