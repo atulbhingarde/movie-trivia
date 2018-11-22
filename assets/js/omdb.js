@@ -1,32 +1,48 @@
 // Array to store Movie Title and Plot from API query
 var quizQuestions = [];
 MaxNumInQList = 4 ;
-
+attemptedTitles = [];
+attemptedPlots = [] ; 
+attemptedYourTitles = [] ; 
+attemptedAnswers = [] ; 
+var correctCount = 0;
+const numQuestions = 10;
+const selectedFour = [] ;
+ButtonText= "SelectThis";
+hasCodeRunBefore = false ; 
 /* const sleep = (milliseconds) => {
     return new Promise(resolve => setTimeout(resolve, milliseconds))
   } */
-const getMovieQuestions = function() {
-    const numQuestions = 10;
+/*  window.onload = function () {
+    if (!ls.exists('has_code_run_before')) {
+        getMovieQuestions1();
+        ls.set.single('has_code_run_before', true);
+
+        ls.set.single('has_code_run_before', true, function () {
+        });
+    }
+}; */
+/* window.onload = function () {
+    if (localStorage.getItem("hasCodeRunBefore") === null) {
+        getMovieQuestions1();
+        localStorage.setItem("hasCodeRunBefore", true);
+    }
+}; */
+window.addEventListener('load', function () {
+    // do stuff when the page has loaded
+    getMovieQuestions1();
+}, false);
+const getMovieQuestions1 = function() {
     const movieQuiz = [];
     quizQuestions.length = 0 ;
-    // const MaxNumInQList = 4 ;
-
-    // Select X number of movies from movieList array and add them to the movieQuiz array
-    for(var i=0; i < numQuestions; i++) {
-        movieQuiz.push(movieList[Math.floor(Math.random() * movieList.length)]);
-    }
-    // lets get 
-    //  one correct pair (plot and title) 
-    // and three incorrect titles
-    // Provide plot and all answers to the user to select one of them 
-    // 
-    // select one random out of the number of questions we have selected
-    // create an array of 4 
-
-    // const MaxQs = 4;
     const SelectrandomOutOfMax = [];
     SelectrandomOutOfMax.length = 0 ; 
-    while ( SelectrandomOutOfMax.length < MaxNumInQList )
+
+
+    // Select X number of movies from movieList array and add them to the movieQuiz array
+        
+    // get 10 unique numbers from long list we have
+    while ( SelectrandomOutOfMax.length < numQuestions )
      {
          currentStart=0;
          TempSelectrandomOutOf = Math.floor(Math.random() * movieList.length );
@@ -35,27 +51,33 @@ const getMovieQuestions = function() {
          // SelectrandomOutOfMax.push(TempSelectrandomOutOf) ; 
          // console.log("another "+SelectrandomOutOfMax.length);    
      }
-    
-    console.log('new list');
+    // console.log(" here " + SelectrandomOutOfMax);
+    // console.log('new list');
     quizQuestions.length = 0 ; 
-    for ( i = 0; ( i < MaxNumInQList ) ; i++) {
-        queryURL = `https://www.omdbapi.com/?apikey=8acace67&t=${movieQuiz[i]}`;
+    for ( i = 0; ( i < numQuestions ) ; i++) {
+        queryURL = `https://www.omdbapi.com/?apikey=8acace67&t=${movieList[SelectrandomOutOfMax[i]]}`;
+        // console.log(queryURL);
         $.ajax({
             url: queryURL,
             method: 'GET'
         }).then(function (response) {
             if ( typeof response.Title === 'undefined' || ( quizQuestions.indexOf(response.title) !== -1 )  ) 
-             { console.log(" some issue" + response.Title+" |"+response.Plot); getMovieQuestions() ; } 
+             { 
+               console.log(" some issue" + response.Title+" |"+response.Plot); 
+               getMovieQuestions1() ; 
+             } 
             else 
-             { // console.log(response.Title+" | "+response.Plot); 
+             { 
+              // console.log(response.Title+" | "+response.Plot); 
                var objMovie = {
-                Title: response.Title,
-                Plot: response.Plot,
+                myTitle: response.Title,
+                myPlot: response.Plot,
                 };
                quizQuestions.push(objMovie);
-               // console.log(objMovie.Title);
+               // console.log(objMovie.myTitle);
                if ( quizQuestions.length === i ) { 
-                   for(j=0;j<quizQuestions.length;j++) { console.log(" hi there 1 " + j + " "+ quizQuestions[j].Title) ; } 
+                   for(j=0;j<quizQuestions.length;j++) 
+                    { /* console.log(" hi there 1 " + j + " "+ quizQuestions[j].myTitle+"|"+objMovie.myTitle) ; */ } 
                    listit(); }    
             }
         });
@@ -65,54 +87,43 @@ const getMovieQuestions = function() {
  listit = function(){
 
     // get a random pair out of shortlist 
-    var SelectedHonor = Math.floor(Math.random() * MaxNumInQList);
-    console.log(" at end " + " | " + SelectedHonor );
+    // selectedFour = [] ; 
+    selectedFour.length = 0 ; 
+
+    var SelectedHonor = Math.floor(Math.random() * numQuestions);
+ 
+    
+    // console.log(" at end " + " | " + SelectedHonor );
     if ( quizQuestions[SelectedHonor]  !== undefined ) {
-    // console.log(" at end " + " | " + SelectedHonor + " | " + quizQuestions[SelectedHonor].Title + " | "+quizQuestions[SelectedHonor].Plot);
-    // console.log(" here finally " + MaxNumInQList + " " + SelectedHonor + " " + quizQuestions[SelectrandomOutOfMax[0]].mytitle+"|" + quizQuestions[SelectrandomOutOfMax[1]].mytitle + "|" + quizQuestions[SelectrandomOutOfMax[2]].mytitle + "|" + quizQuestions[SelectrandomOutOfMax[3]].mytitle );
+    // selectedFour.push(quizQuestions[SelectedHonor].myTitle);
+    // console.log("correct answer is " + quizQuestions[SelectedHonor].myTitle) ;
+    selectedFour.push(SelectedHonor);
     
-    // setup the plot 
-    // commented timebeing for sake of jquery
+    // get three more from the list of 10 but not duplicated
+    while ( selectedFour.length < MaxNumInQList )
+    {
+      tempHold= Math.floor(Math.random() * numQuestions);
 
-    
-    /* var ChooseButton = document.createElement("TEXT");     // Create a buttonelement
-    TempButtonId =  'MyText' ; 
-    var targetElement = document.getElementById(TempButtonId) ; 
+      if ( selectedFour.indexOf(tempHold) == -1 ) { selectedFour.push(tempHold) ;  }
 
-    if ( targetElement !== null ) {
-        // element does exist lets delete it 
-        targetElement.parentNode.removeChild(targetElement);
     }
-    ChooseButton.id = TempButtonId ; 
-    var t = document.createTextNode(" "+quizQuestions[SelectedHonor].Plot+" ") ;   // Create a text node
-    ChooseButton.appendChild(t);                                          // Append the text to <p>
-    document.getElementById("movieScreen").appendChild(ChooseButton);           // Append <p> to <div> with id="myDIV" 
-    // end of setting up the plot
-    */
-    $('#movieScreen').html(`<p class="p-3" id="MyText">${quizQuestions[SelectedHonor].Plot}</p>`);
+    // console.log(" here here " + selectedFour);
 
-    console.log("here " + quizQuestions[0].Title);    
+    $('#movieScreen').html(`<p class="p-3" id="MyPlot">${quizQuestions[SelectedHonor].myPlot}</p>`);
+    
+    // console.log("here " + quizQuestions[0].Title);    
     for(ButtonsInd=0; ButtonsInd < MaxNumInQList ; ButtonsInd++) {
-        var TempButtonId =  'SelectThis'+ ButtonsInd ; 
+        var TempButtonId =  ButtonText + ButtonsInd ; 
         // rremove the button if it exists 
         targetElement = document.getElementById(TempButtonId) ; 
         if ( targetElement !== null ) {
             // element does exist lets delete it 
             targetElement.parentNode.removeChild(targetElement);
         }
-        // add a button      
-        /* 
-        ChooseButton = document.createElement("BUTTON");     // Create a buttonelement
-        ChooseButton.setAttribute("onclick","OnSelection(this)");
+        
+        $('#answers').prepend(`<button class="p-3" onclick="OnSelection(this)" id="`+TempButtonId+`">${quizQuestions[selectedFour[ButtonsInd]].myTitle}</button>`);
 
-        ChooseButton.id =TempButtonId ; 
-        t = document.createTextNode(" "+quizQuestions[ButtonsInd].Title+" ") ;   // Create a text node
-        ChooseButton.appendChild(t);                                          // Append the text to <p>
-        document.getElementById("answers").prepend(ChooseButton);           // Append <p> to <div> with id="myDIV" 
-        */
-        $('#answers').prepend(`<button class="p-3" onclick="OnSelection(this)" id="`+TempButtonId+`">${quizQuestions[ButtonsInd].Title}</button>`);
-
-        console.log("here " + quizQuestions[ButtonsInd].Title);      
+        // console.log("here " + quizQuestions[ButtonsInd].myTitle);      
 
     } }
 };
@@ -124,16 +135,61 @@ const OnSelection = function(link) {
 };
 
 const checkIfItMatches = function(thistext) {
-    TempButtonId =  'MyText' ; 
-    var TexttargetElement = document.getElementById(TempButtonId).innerText ; 
+
+    // locate the element with the MyPlot 
+    TempId =  'MyPlot' ; 
+    // get the inner text and that is the plot 
+    var TexttargetElement = document.getElementById(TempId).innerText ; 
 
     // alert(TexttargetElement);
+    // assume to begin with that we do not have the correct answer in hand, obviously 
+    // located as non real less than 0 index value
+
     found = false ; 
     located = -1 ;  
+
     for(i=0;i<MaxNumInQList;i++) { 
-        if ( ( thistext === quizQuestions[i].Title ) && ( TexttargetElement === quizQuestions[i].Plot  ) )  { found = true ; located = i ; } 
+        if ( ( thistext === quizQuestions[selectedFour[i]].myTitle ) && ( TexttargetElement === quizQuestions[selectedFour[i]].myPlot  ) )  
+         { found = true ; located = i ; } 
     }
-    if ( found ) { alert(" keep it up ! you are right about title " + thistext + " is indeed " + quizQuestions[located].Plot  );} else {alert("better luck next time");} 
+    if ( found ===  true ) 
+      { alert(" keep it up ! you are right about title " + thistext + " is indeed " + quizQuestions[located].Plot  );} 
+    else 
+      { alert(" better luck next time"); } 
+    // here the found is correct either true or false
+    attemptedTitles.push(thistext);
+    attemptedAnswers.push(found);
+    attemptedPlots.push(TexttargetElement);
+
+    if ( found == true ) { correctCount = correctCount + 1 ;}
+
+    for(j=0;j<attemptedAnswers.length;j++) 
+     { 
+       console.log(j+"|"+attemptedTitles[j]+"|"+attemptedAnswers[j]+"|"+attemptedPlots[j]);
+     }
+     // once selected a button a chance is taken disable all the buttons 
+     // only button available is the lets play button
+     DisableSelectButtons(); 
+     console.log(correctCount+"|"+attemptedAnswers.length);
+     var thisButton=document.getElementById("Dice"); 
+     // console.log(thisButton);
+     // thisButton.onclick("listit()");
+     thisButton.setAttribute("onclick","listit()");
+
+
+
+
+};
+const DisableSelectButtons = function()
+{
+ // here list all buttons and disable them for heavens sake !  will ya ?
+ 
+ var thisandthat = $('*[id ^= "SelectThis"]');
+ // console.log(thisandthat) ; 
+ 
+ for(i=0;i<thisandthat.length;i++) $(thisandthat[i]).prop('disabled',true);
+
+ 
 
 };
 //   // $('#movieScreen').html(`<p class="p-3">${quizQuestions[0].Plot}</p>`);
