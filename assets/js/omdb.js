@@ -10,6 +10,44 @@ const numQuestions = 10;
 const selectedFour = [] ;
 ButtonText= "SelectThis";
 hasCodeRunBefore = false ; 
+QuestionsEasy = false ; 
+const toggleme = function(){
+  if ( QuestionsEasy == true ) 
+   { QuestionsEasy = false ; } 
+  else 
+   { QuestionsEasy = true ; } 
+  alert("QuestionsEasy is " + QuestionsEasy );
+  listit();
+};
+const DoesItMatch = function(ThisString,WithThatString) {
+  matchcount = 0 ;
+  totcount = 0 ;
+  maxMatching = 0.0 ;
+  ThisStringArr =   ThisString.split(/ |,|:|;|{|}|'|\(|\)|-/);
+  WithThatStringArr = WithThatString.split(/ |,|:|;|{|}|'|\(|\)/);
+  for(mWords=0;mWords< ThisStringArr.length; mWords++) 
+   {
+    totcount++;
+    if ( WithThatStringArr.indexOf(ThisStringArr[mWords]) !== -1 ) { matchcount++ ; } 
+    percentMatch = (matchcount/totcount)*100;
+
+    if ( percentMatch > maxMatching ) maxMatching = percentMatch ; 
+   }
+  console.log("Matching " + maxMatching );
+  return maxMatching;
+};
+const MyFilter = function(targetString, referenceString){
+  filteredString = targetString ;
+  refArray = referenceString.split(/ |,|:|;|{|}|'|\(|\)|-/);
+  for(mWords=0;mWords<refArray.length;mWords++) 
+   {
+    if ( refArray[mWords].length > 2 ) {
+    regEx = new RegExp(refArray[mWords], "ig");  
+    filteredString = filteredString.replace(regEx,"*".repeat(refArray[mWords].length)); }
+  // console.log("here title" + referenceString);
+  if ( filteredString !==  targetString ) { console.log("did replace");} }
+  return filteredString;
+}
 const removeThisElementById = function(MyId)
  {
    targetElement = document.getElementById(MyId) ; 
@@ -55,6 +93,8 @@ const getMovieQuestions = function() {
              } 
             else 
              { 
+                // call to exclude the words from plot that are in title 
+              
                 var objMovie = {
                 myTitle: response.Title,
                 myPlot: response.Plot,
@@ -83,6 +123,13 @@ const getMovieQuestions = function() {
     
     if ( quizQuestions[SelectedHonor]  !== undefined ) 
      {
+      getFiltered = quizQuestions[SelectedHonor].myPlot ; 
+      if ( QuestionsEasy === false )
+       { 
+         getFiltered = MyFilter(quizQuestions[SelectedHonor].myPlot,quizQuestions[SelectedHonor].myTitle);
+         console.log("here filtered" + getFiltered);
+       }
+
       // after confirming it is not undefined push it to the array of 4 
       selectedFour.push(SelectedHonor);
       // now select other three as summy titles
@@ -102,7 +149,9 @@ const getMovieQuestions = function() {
       kk=selectedFour[tempHold];  selectedFour[tempHold]=selectedFour[0]; selectedFour[0] = kk ; 
 
       // now display the plot that was selected 
-      $('#movieScreen').html(`<p class="p-3" id="MyPlot">${quizQuestions[SelectedHonor].myPlot}</p>`);
+      // $('#movieScreen').html(`<p class="p-3" id="MyPlot">${quizQuestions[SelectedHonor].myPlot}</p>`);
+      $('#movieScreen').html(`<p class="p-3" id="MyPlot">`+getFiltered+`</p>`);
+
     
 
       // now set all the buttons with the text 
@@ -114,7 +163,7 @@ const getMovieQuestions = function() {
         removeThisElementById(TempButtonId);
         // set the button with answer number appended for all buttons         
         $('#answers').prepend(`<button class="p-3" onclick="OnSelection(this)" id="`+TempButtonId+`">${quizQuestions[selectedFour[ButtonsInd]].myTitle}</button>`);
-
+        
 
        }
       // check and remove the dice for change set 
@@ -145,17 +194,22 @@ const checkIfItMatches = function(thistext)
 
     found = false ; 
     located = -1 ;  
-
-    for(i=0;i<MaxNumInQList;i++) 
+    MatchPerc = 0; 
+    for(i=0;( i<MaxNumInQList ) && ( MatchPerc !== 100 );i++) 
      { 
         // if the text from the button matches for the selected title 
         // and 
         // the text we obtained from the inner text of the plot and the one corresponding to that of plot from quizquestions 
         // remember the array we are working is quizquestions which is of size 10 and not short listed 4 items 
         // selected four is holding just the index for the random 4 selected from 10
+        // MatchPerc = DoesItMatch(TexttargetElement,quizQuestions[selectedFour[i]].myPlot);
+        MatchPerc = DoesItMatch(quizQuestions[selectedFour[i]].myPlot,TexttargetElement);
+
         if ( ( thistext === quizQuestions[selectedFour[i]].myTitle ) && 
-             ( TexttargetElement === quizQuestions[selectedFour[i]].myPlot  ) )  
+             ( ( TexttargetElement === quizQuestions[selectedFour[i]].myPlot )  || ( MatchPerc === 100.0 )  )  )
          { found = true ; located = i ; } 
+         
+         
      }
     if ( found ===  true ) 
       { alert(" keep it up ! you are right about title " + thistext + " is indeed " + quizQuestions[selectedFour[located]].myPlot  );} 
@@ -174,7 +228,7 @@ const checkIfItMatches = function(thistext)
      }
      // once selected a button a chance is taken disable all the buttons 
      // only button available is the lets play button
-     DisableSelectButtons();
+     // DisableSelectButtons();
      removeThisElementById("MyCounters");
      
      $('#SideCurtain').prepend('<text id="MyCounters"> Your Score : correct '+correctCount+' out of '+ lengthArray + '</text>');

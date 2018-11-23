@@ -97,8 +97,30 @@ body {
     border-radius: 10px;
     margin: 5px ;
 }
-
-
+*[id ^= 'RadioButton']{
+    background-color: gray; /* Green */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 30px;
+    border-radius: 10px;
+    margin: 5px ;
+}
+*[id ^= 'MyRb']{
+    background-color: gray; /* Green */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 30px;
+    border-radius: 10px;
+    margin: 5px ;
+}
 
 button:disabled,
 button[disabled]{
