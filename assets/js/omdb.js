@@ -121,7 +121,7 @@ const getMovieQuestions = function() {
       // this button allows you to change the set of 10 
       removeThisElementById("Dice1");
       // now add a dice for getting a new set 
-      $('#answers').append(`<button class="p-3" onclick="getMovieQuestions()" id="Dice1">ChangeSet</button>`);
+      $('#answers').append(`<button class="p-3" title="select this for getting new set of 10" onclick="getMovieQuestions()" id="Dice1">ChangeSet</button>`);
      }
   };
 //Prep = function() { getMovieQuestions();  listit();};
@@ -158,7 +158,7 @@ const checkIfItMatches = function(thistext)
          { found = true ; located = i ; } 
      }
     if ( found ===  true ) 
-      { alert(" keep it up ! you are right about title " + thistext + " is indeed " + quizQuestions[located].Plot  );} 
+      { alert(" keep it up ! you are right about title " + thistext + " is indeed " + quizQuestions[selectedFour[located]].myPlot  );} 
     else 
       { alert(" better luck next time"); } 
     // here the found is correct either true or false
@@ -187,6 +187,7 @@ const checkIfItMatches = function(thistext)
      // user can select another set by using changeset button 
 
      thisButton.setAttribute("onclick","listit()");
+     thisButton.setAttribute("title","select this for continuing on same set") ; 
 
 
 

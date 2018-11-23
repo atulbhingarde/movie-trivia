@@ -97,13 +97,22 @@ body {
     border-radius: 10px;
     margin: 5px ;
 }
-.Dice {
+
+
+
+button:disabled,
+button[disabled]{
+    border: 1px solid #999999;
+    background-color: #cccccc;
+    color: #666666;
+  }
+  .tooltip {
     position: relative;
     display: inline-block;
     border-bottom: 1px dotted black;
 }
 
-.Dice .DiceText {
+.tooltip .tooltiptext {
     visibility: hidden;
     width: 120px;
     background-color: black;
@@ -115,4 +124,8 @@ body {
     /* Position the tooltip */
     position: absolute;
     z-index: 1;
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
 }
