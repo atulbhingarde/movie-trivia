@@ -228,7 +228,7 @@ const checkIfItMatches = function(thistext)
      }
      // once selected a button a chance is taken disable all the buttons 
      // only button available is the lets play button
-     // DisableSelectButtons();
+     DisableSelectButtons();
      removeThisElementById("MyCounters");
      
      $('#SideCurtain').prepend('<text id="MyCounters"> Your Score : correct '+correctCount+' out of '+ lengthArray + '</text>');
