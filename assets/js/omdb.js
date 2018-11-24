@@ -10,13 +10,24 @@ const numQuestions = 10;
 const selectedFour = [] ;
 ButtonText= "SelectThis";
 hasCodeRunBefore = false ; 
-QuestionsEasy = false ; 
-const toggleme = function(){
-  if ( QuestionsEasy == true ) 
-   { QuestionsEasy = false ; } 
+QuestionsEasy = true ; 
+const toggleme = function(MyBool){
+  QuestionsEasy = MyBool;
+  if ( QuestionsEasy === true ) 
+   {
+     thisandthat = $('*[id ^= "RadioButtonEasy"]');
+     $(thisandthat).prop('disabled',true);
+     thisandthat = $('*[id ^= "RadioButtonTough"]');
+     $(thisandthat).prop('disabled',false);
+     alert(`its `+QuestionsEasy+` right now will change it to false`) ; QuestionsEasy = false ; } 
   else 
-   { QuestionsEasy = true ; } 
-  alert("QuestionsEasy is " + QuestionsEasy );
+   { 
+    thisandthat = $('*[id ^= "RadioButtonEasy"]');
+    $(thisandthat).prop('disabled',false);
+    thisandthat = $('*[id ^= "RadioButtonTough"]');
+    $(thisandthat).prop('disabled',true);
+    alert(`its `+QuestionsEasy+` right now will change it to true`); QuestionsEasy = true ; } 
+  // alert("QuestionsEasy is " + QuestionsEasy ); */
   listit();
 };
 const DoesItMatch = function(ThisString,WithThatString) {
@@ -126,9 +137,10 @@ const getMovieQuestions = function() {
       getFiltered = quizQuestions[SelectedHonor].myPlot ; 
       if ( QuestionsEasy === false )
        { 
+         console.log("will filter");
          getFiltered = MyFilter(quizQuestions[SelectedHonor].myPlot,quizQuestions[SelectedHonor].myTitle);
-         console.log("here filtered" + getFiltered);
-       }
+         // console.log("here filtered" + getFiltered);
+       } else { console.log("will not filter");}
 
       // after confirming it is not undefined push it to the array of 4 
       selectedFour.push(SelectedHonor);
