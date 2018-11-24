@@ -19,14 +19,16 @@ const toggleme = function(MyBool){
      $(thisandthat).prop('disabled',true);
      thisandthat = $('*[id ^= "RadioButtonTough"]');
      $(thisandthat).prop('disabled',false);
-     alert(`its `+QuestionsEasy+` right now will change it to false`) ; QuestionsEasy = false ; } 
+     // alert(`its `+QuestionsEasy+` right now will change it to false`) ; QuestionsEasy = false ;
+     } 
   else 
    { 
     thisandthat = $('*[id ^= "RadioButtonEasy"]');
     $(thisandthat).prop('disabled',false);
     thisandthat = $('*[id ^= "RadioButtonTough"]');
     $(thisandthat).prop('disabled',true);
-    alert(`its `+QuestionsEasy+` right now will change it to true`); QuestionsEasy = true ; } 
+    // alert(`its `+QuestionsEasy+` right now will change it to true`); QuestionsEasy = true ; 
+  } 
   // alert("QuestionsEasy is " + QuestionsEasy ); */
   listit();
 };
