@@ -11,23 +11,53 @@ const selectedFour = [] ;
 ButtonText= "SelectThis";
 hasCodeRunBefore = false ; 
 QuestionsEasy = true ; 
+const tuneRadioRight = function(MyId,nMybool,nMyTitle) {
+  var tthisandthat = $('*[id ^= MyId]');
+  if ( tthisandthat[0] !== null ) {
+
+  
+  // $(tthisandthat).prop('disabled',nMybool);
+  $(tthisandthat[0]).prop('title',nMyTitle);
+  $(tthisandthat[0]).prop('disabled',nMybool);
+
+  } else { console.log("cound not locate"+MyId);}
+};
 const toggleme = function(MyBool){
   QuestionsEasy = MyBool;
   if ( QuestionsEasy === true ) 
    {
+
      thisandthat = $('*[id ^= "RadioButtonEasy"]');
+     $(thisandthat).prop('title',"disabled");
      $(thisandthat).prop('disabled',true);
+
      thisandthat = $('*[id ^= "RadioButtonTough"]');
+     $(thisandthat).prop('title',"enabled");
      $(thisandthat).prop('disabled',false);
-     // alert(`its `+QuestionsEasy+` right now will change it to false`) ; QuestionsEasy = false ;
+     /* tuneRadioRight("RadioButtonEasy",true,"Disabled");
+     tuneRadioRight("RadioButtonTough",false,"Enabaled"); */
+
+     // alert(`its `+QuestionsEasy+` right now will change it to false`) ; 
+     QuestionsEasy = true ;
+
      } 
   else 
    { 
+    
+    // already selected option is for tough quesitons
     thisandthat = $('*[id ^= "RadioButtonEasy"]');
-    $(thisandthat).prop('disabled',false);
+    $(thisandthat).prop('title',"enabled");
+    $(thisandthat).prop('disabled',false); 
+    // tuneRadioRight("RadioButtonEasy",false,"Enabled");
+
     thisandthat = $('*[id ^= "RadioButtonTough"]');
-    $(thisandthat).prop('disabled',true);
-    // alert(`its `+QuestionsEasy+` right now will change it to true`); QuestionsEasy = true ; 
+    $(thisandthat).prop('title',"disabled"); 
+    $(thisandthat).prop('disabled',true );
+    // tuneRadioRight("RadioButtonTough",true,"Disabled");
+
+    // alert(`its `+QuestionsEasy+` right now will change it to true`);
+    QuestionsEasy = false;
+
   } 
   // alert("QuestionsEasy is " + QuestionsEasy ); */
   listit();
