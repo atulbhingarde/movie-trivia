@@ -66,18 +66,19 @@ const DoesItMatch = function(ThisString,WithThatString) {
   matchcount = 0 ;
   totcount = 0 ;
   maxMatching = 0.0 ;
-  ThisStringArr =   ThisString.split(/ |,|:|;|{|}|'|\(|\)|-/);
-  WithThatStringArr = WithThatString.split(/ |,|:|;|{|}|'|\(|\)/);
+  ThisStringArr =         ThisString.split(/ |,|:|;|{|}|'|\(|\)|-|\\*/);
+  WithThatStringArr = WithThatString.split(/ |,|:|;|{|}|'|\(|\)|-|\\*/);
   for(mWords=0;mWords< ThisStringArr.length; mWords++) 
    {
     totcount++;
     if ( WithThatStringArr.indexOf(ThisStringArr[mWords]) !== -1 ) { matchcount++ ; } 
-    percentMatch = (matchcount/totcount)*100;
-
-    if ( percentMatch > maxMatching ) maxMatching = percentMatch ; 
    }
-  console.log("Matching " + maxMatching );
-  return maxMatching;
+   percentMatch = (matchcount/totcount)*100.0 ;
+
+   // if ( percentMatch > maxMatching ) maxMatching = percentMatch ; 
+   
+  // console.log("Matching " + percentMatch +"|" +ThisString + "|" + WithThatString );
+  return percentMatch;
 };
 const MyFilter = function(targetString, referenceString){
   filteredString = targetString ;
@@ -141,6 +142,7 @@ const getMovieQuestions = function() {
                 var objMovie = {
                 myTitle: response.Title,
                 myPlot: response.Plot,
+                myPlotU: response.Plot,
                 };
                quizQuestions.push(objMovie);
               
@@ -185,7 +187,12 @@ const getMovieQuestions = function() {
         if ( selectedFour.indexOf(tempHold) == -1 ) { selectedFour.push(tempHold) ;  }
 
       }
+      for(i=0; ( i<selectedFour.length ) && ( QuestionsEasy === false );i++) 
+      { 
+        tgetFiltered = MyFilter(quizQuestions[i].myPlot,quizQuestions[i].myTitle);
+        quizQuestions[i].myPlot = tgetFiltered ; 
 
+      }
       // get one random number and swap the item so that the honored title is not in the begining always 
 
       tempHold= Math.floor(Math.random() * MaxNumInQList);
@@ -239,7 +246,7 @@ const checkIfItMatches = function(thistext)
     found = false ; 
     located = -1 ;  
     MatchPerc = 0; 
-    for(i=0;( i<MaxNumInQList ) && ( MatchPerc !== 100 );i++) 
+    for(i=0;( i<MaxNumInQList ) && ( found === false );i++) 
      { 
         // if the text from the button matches for the selected title 
         // and 
@@ -250,13 +257,18 @@ const checkIfItMatches = function(thistext)
         MatchPerc = DoesItMatch(quizQuestions[selectedFour[i]].myPlot,TexttargetElement);
 
         if ( ( thistext === quizQuestions[selectedFour[i]].myTitle ) && 
-             ( ( TexttargetElement === quizQuestions[selectedFour[i]].myPlot )  || ( MatchPerc === 100.0 )  )  )
-         { found = true ; located = i ; } 
+             ( ( TexttargetElement === quizQuestions[selectedFour[i]].myPlot )  || ( MatchPerc > 75.0 ) )   )
+         { found = true ; 
+           located = i ; 
+           // alert(MatchPerc+"|"+TexttargetElement+"|"+quizQuestions[selectedFour[i]].myPlot);
+         } 
+        // alert(MatchPerc+"|"+TexttargetElement+"|"+quizQuestions[selectedFour[i]].myPlot);
+
          
          
      }
     if ( found ===  true ) 
-      { alert(" keep it up ! you are right about title " + thistext + " is indeed " + quizQuestions[selectedFour[located]].myPlot  );} 
+      { alert(" keep it up ! you are right about title " + thistext + " is indeed " + quizQuestions[selectedFour[located]].myPlotU  );} 
     else 
       { alert(" better luck next time"); } 
     // here the found is correct either true or false
