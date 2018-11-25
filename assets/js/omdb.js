@@ -66,15 +66,16 @@ const DoesItMatch = function(ThisString,WithThatString) {
   matchcount = 0 ;
   totcount = 0 ;
   maxMatching = 0.0 ;
-  ThisStringArr =         ThisString.split(/ |,|:|;|{|}|'|\(|\)|-|\\*/);
-  WithThatStringArr = WithThatString.split(/ |,|:|;|{|}|'|\(|\)|-|\\*/);
-  for(mWords=0;mWords< ThisStringArr.length; mWords++) 
+  ThisStringArr =         ThisString.split(/ |,|:|;|{|}|'|\(|\)|-|\\\\*/);
+  WithThatStringArr = WithThatString.split(/ |,|:|;|{|}|'|\(|\)|-|\\\\*/);
+  MaxLen=ThisStringArr.length;
+
+  for(mWords=0;mWords< MaxLen ; mWords++) 
    {
-    totcount++;
     if ( WithThatStringArr.indexOf(ThisStringArr[mWords]) !== -1 ) { matchcount++ ; } 
    }
-   percentMatch = (matchcount/totcount)*100.0 ;
-
+   percentMatch = (matchcount/MaxLen)*100.0 ;
+   console.log(matchcount + " out of "+ MaxLen);
    // if ( percentMatch > maxMatching ) maxMatching = percentMatch ; 
    
   // console.log("Matching " + percentMatch +"|" +ThisString + "|" + WithThatString );
@@ -254,10 +255,10 @@ const checkIfItMatches = function(thistext)
         // remember the array we are working is quizquestions which is of size 10 and not short listed 4 items 
         // selected four is holding just the index for the random 4 selected from 10
         // MatchPerc = DoesItMatch(TexttargetElement,quizQuestions[selectedFour[i]].myPlot);
-        MatchPerc = DoesItMatch(quizQuestions[selectedFour[i]].myPlot,TexttargetElement);
+        MatchPerc = DoesItMatch(quizQuestions[selectedFour[i]].myPlotU,TexttargetElement);
 
         if ( ( thistext === quizQuestions[selectedFour[i]].myTitle ) && 
-             ( ( TexttargetElement === quizQuestions[selectedFour[i]].myPlot )  || ( MatchPerc > 75.0 ) )   )
+             ( ( TexttargetElement === quizQuestions[selectedFour[i]].myPlotU )  || ( MatchPerc > 75.0 ) )   )
          { found = true ; 
            located = i ; 
            // alert(MatchPerc+"|"+TexttargetElement+"|"+quizQuestions[selectedFour[i]].myPlot);
