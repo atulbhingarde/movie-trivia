@@ -28,11 +28,11 @@ const toggleme = function(MyBool){
    {
 
      thisandthat = $('*[id ^= "RadioButtonEasy"]');
-     $(thisandthat).prop('title',"disabled");
+     $(thisandthat).prop('title',"disabled as selected, when selected plot displayed is as is ");
      $(thisandthat).prop('disabled',true);
 
      thisandthat = $('*[id ^= "RadioButtonTough"]');
-     $(thisandthat).prop('title',"enabled");
+     $(thisandthat).prop('title',"enabled as not yet selected, when selected plot displayed is bit cryptic !");
      $(thisandthat).prop('disabled',false);
      /* tuneRadioRight("RadioButtonEasy",true,"Disabled");
      tuneRadioRight("RadioButtonTough",false,"Enabaled"); */
@@ -46,12 +46,13 @@ const toggleme = function(MyBool){
     
     // already selected option is for tough quesitons
     thisandthat = $('*[id ^= "RadioButtonEasy"]');
-    $(thisandthat).prop('title',"enabled");
+    $(thisandthat).prop('title',"enabled as not yet selected, when selected plot displayed is as is ! ");
     $(thisandthat).prop('disabled',false); 
     // tuneRadioRight("RadioButtonEasy",false,"Enabled");
 
     thisandthat = $('*[id ^= "RadioButtonTough"]');
-    $(thisandthat).prop('title',"disabled"); 
+    
+    $(thisandthat).prop('title',"disabled as selected, when selected plot displayed is bit cryptic !");
     $(thisandthat).prop('disabled',true );
     // tuneRadioRight("RadioButtonTough",true,"Disabled");
 
@@ -62,20 +63,24 @@ const toggleme = function(MyBool){
   // alert("QuestionsEasy is " + QuestionsEasy ); */
   listit();
 };
-const DoesItMatch = function(ThisString,WithThatString) {
+// const DoesItMatch = function(ThisString,WithThatString) {
+const DoesItMatch = function(WithThatString,ThisString) {
+
   matchcount = 0 ;
   totcount = 0 ;
   maxMatching = 0.0 ;
+  WithThatString = WithThatString.replace("\\\\*","");
+  WithThatString = WithThatString.replace("\\\\*","");
   ThisStringArr =         ThisString.split(/ |,|:|;|{|}|'|\(|\)|-|\\\\*/);
   WithThatStringArr = WithThatString.split(/ |,|:|;|{|}|'|\(|\)|-|\\\\*/);
   MaxLen=ThisStringArr.length;
-
+  
   for(mWords=0;mWords< MaxLen ; mWords++) 
    {
     if ( WithThatStringArr.indexOf(ThisStringArr[mWords]) !== -1 ) { matchcount++ ; } 
    }
    percentMatch = (matchcount/MaxLen)*100.0 ;
-   console.log(matchcount + " out of "+ MaxLen);
+   // console.log(matchcount + " out of "+ MaxLen);
    // if ( percentMatch > maxMatching ) maxMatching = percentMatch ; 
    
   // console.log("Matching " + percentMatch +"|" +ThisString + "|" + WithThatString );
@@ -83,14 +88,14 @@ const DoesItMatch = function(ThisString,WithThatString) {
 };
 const MyFilter = function(targetString, referenceString){
   filteredString = targetString ;
-  refArray = referenceString.split(/ |,|:|;|{|}|'|\(|\)|-/);
+  refArray = referenceString.split(/ |,|:|;|{|}|'|\(|\)|-|\\\\./);
   for(mWords=0;mWords<refArray.length;mWords++) 
    {
     if ( refArray[mWords].length > 2 ) {
     regEx = new RegExp(refArray[mWords], "ig");  
     filteredString = filteredString.replace(regEx,"*".repeat(refArray[mWords].length)); }
   // console.log("here title" + referenceString);
-  if ( filteredString !==  targetString ) { console.log("did replace");} }
+  if ( filteredString !==  targetString ) { /* console.log("did replace"); */ } }
   return filteredString;
 }
 const removeThisElementById = function(MyId)
@@ -105,7 +110,7 @@ const removeThisElementById = function(MyId)
 // do initialze the game
 window.addEventListener('load', function () {
     // do stuff when the page has loaded
-    getMovieQuestions();
+    getMovieQuestions();toggleme(true);
 }, false);
 const getMovieQuestions = function() {
     const movieQuiz = [];
@@ -172,10 +177,10 @@ const getMovieQuestions = function() {
       getFiltered = quizQuestions[SelectedHonor].myPlot ; 
       if ( QuestionsEasy === false )
        { 
-         console.log("will filter");
+         // console.log("will filter");
          getFiltered = MyFilter(quizQuestions[SelectedHonor].myPlot,quizQuestions[SelectedHonor].myTitle);
          // console.log("here filtered" + getFiltered);
-       } else { console.log("will not filter");}
+       } else { /* console.log("will not filter"); */}
 
       // after confirming it is not undefined push it to the array of 4 
       selectedFour.push(SelectedHonor);
@@ -185,7 +190,7 @@ const getMovieQuestions = function() {
        {
         tempHold= Math.floor(Math.random() * numQuestions);
         // make sure it is not repated in the array 
-        if ( selectedFour.indexOf(tempHold) == -1 ) { selectedFour.push(tempHold) ;  }
+        if ( selectedFour.indexOf(tempHold) === -1 ) { selectedFour.push(tempHold) ;  }
 
       }
       for(i=0; ( i<selectedFour.length ) && ( QuestionsEasy === false );i++) 
@@ -279,10 +284,11 @@ const checkIfItMatches = function(thistext)
 
     if ( found == true ) { correctCount = correctCount + 1 ;}
     lengthArray=attemptedAnswers.length;
-    for(j=0;j<lengthArray;j++) 
+    /* for(j=0;j<lengthArray;j++) 
      { 
        console.log(j+"|"+attemptedTitles[j]+"|"+attemptedAnswers[j]+"|"+attemptedPlots[j]);
-     }
+     } */
+
      // once selected a button a chance is taken disable all the buttons 
      // only button available is the lets play button
      DisableSelectButtons();
