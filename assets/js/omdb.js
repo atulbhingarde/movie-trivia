@@ -12,13 +12,14 @@ ButtonText= "SelectThis";
 hasCodeRunBefore = false ; 
 QuestionsEasy = true ; 
 const tuneRadioRight = function(MyId,nMybool,nMyTitle) {
-  var tthisandthat = $('*[id ^= MyId]');
-  if ( tthisandthat[0] !== null ) {
+  // var tthisandthat = $('*[id ^= MyId]');
+  var tthisandthat = document.getElementById(MyId);
+  if ( tthisandthat !== null ) {
 
   
   // $(tthisandthat).prop('disabled',nMybool);
-  $(tthisandthat[0]).prop('title',nMyTitle);
-  $(tthisandthat[0]).prop('disabled',nMybool);
+  $(tthisandthat).prop('title',nMyTitle);
+  $(tthisandthat).prop('disabled',nMybool);
 
   } else { console.log("cound not locate"+MyId);}
 };
@@ -27,15 +28,8 @@ const toggleme = function(MyBool){
   if ( QuestionsEasy === true ) 
    {
 
-     thisandthat = $('*[id ^= "RadioButtonEasy"]');
-     $(thisandthat).prop('title',"disabled as selected, when selected plot displayed is as is ");
-     $(thisandthat).prop('disabled',true);
-
-     thisandthat = $('*[id ^= "RadioButtonTough"]');
-     $(thisandthat).prop('title',"enabled as not yet selected, when selected plot displayed is bit cryptic !");
-     $(thisandthat).prop('disabled',false);
-     /* tuneRadioRight("RadioButtonEasy",true,"Disabled");
-     tuneRadioRight("RadioButtonTough",false,"Enabaled"); */
+     tuneRadioRight("RadioButtonEasy",true,"disabled as selected, when selected plot displayed is as is ");
+     tuneRadioRight("RadioButtonTough",false,"enabled as not selected, when selected plot displayed is bit cryptic !");
 
      // alert(`its `+QuestionsEasy+` right now will change it to false`) ; 
      QuestionsEasy = true ;
@@ -45,16 +39,9 @@ const toggleme = function(MyBool){
    { 
     
     // already selected option is for tough quesitons
-    thisandthat = $('*[id ^= "RadioButtonEasy"]');
-    $(thisandthat).prop('title',"enabled as not yet selected, when selected plot displayed is as is ! ");
-    $(thisandthat).prop('disabled',false); 
-    // tuneRadioRight("RadioButtonEasy",false,"Enabled");
-
-    thisandthat = $('*[id ^= "RadioButtonTough"]');
     
-    $(thisandthat).prop('title',"disabled as selected, when selected plot displayed is bit cryptic !");
-    $(thisandthat).prop('disabled',true );
-    // tuneRadioRight("RadioButtonTough",true,"Disabled");
+    tuneRadioRight("RadioButtonEasy",false,"enabled as not selected, when selected plot displayed is as is ");
+    tuneRadioRight("RadioButtonTough",true,"disabled as selected, when selected plot displayed is bit cryptic !");
 
     // alert(`its `+QuestionsEasy+` right now will change it to true`);
     QuestionsEasy = false;
