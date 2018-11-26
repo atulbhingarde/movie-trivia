@@ -280,7 +280,7 @@ const checkIfItMatches = function(thistext)
      // only button available is the lets play button
      DisableSelectButtons();
      removeThisElementById("MyCounters");
-     
+     $('#movieScreen').append('<iframe src="https://widgets.itunes.apple.com/widget.html?c=us&brc=FFFFFF&blc=FFFFFF&trc=FFFFFF&tlc=FFFFFF&d=&t=&m=movie&e=movie&w=300&h=300&ids=545892907&wt=discovery&partnerId=&affiliate_id=&at=&ct=" frameborder=0 style="overflow-x:hidden;overflow-y:hidden;width:300px;height: 300px;border:0px"></iframe>');
      $('#SideCurtain').prepend('<text id="MyCounters"> Your Score : correct '+correctCount+' out of '+ lengthArray + '</text>');
 
      console.log(correctCount+"|"+lengthArray);
