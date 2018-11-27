@@ -282,7 +282,7 @@ const checkIfItMatches = function(thistext)
      removeThisElementById("MyCounters");
      $('#SideCurtain').prepend('<text id="MyCounters"> Your Score : correct '+correctCount+' out of '+ lengthArray + '</text>');
 
-     previewUrl = movieInfo(quizQuestions[selectedFour[possibleCorrect]].myTitle);
+     previewUrl = movieInfo(quizQuestions[selectedFour[possibleCorrect]].myTitle,found);
 
      var thisButton=document.getElementById("Dice"); 
      
