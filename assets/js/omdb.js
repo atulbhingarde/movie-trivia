@@ -272,7 +272,7 @@ const checkIfItMatches = function(thistext)
     attemptedAnswers.push(found);
     attemptedPlots.push(TexttargetElement);
 
-    if ( found == true ) { correctCount = correctCount + 1 ;}
+    if ( found === true ) { correctCount = correctCount + 1 ;}
     lengthArray=attemptedAnswers.length;
 
      // once selected a button a chance is taken disable all the buttons 
