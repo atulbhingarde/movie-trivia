@@ -248,22 +248,25 @@ const checkIfItMatches = function(thistext)
         // selected four is holding just the index for the random 4 selected from 10
         // MatchPerc = DoesItMatch(TexttargetElement,quizQuestions[selectedFour[i]].myPlot);
         MatchPerc = DoesItMatch(quizQuestions[selectedFour[i]].myPlotU,TexttargetElement);
+        if ( ( TexttargetElement === quizQuestions[selectedFour[i]].myPlotU )  || ( MatchPerc > 75.0 ) ) 
+         { possibleCorrect = i ;}
+
 
         if ( ( thistext === quizQuestions[selectedFour[i]].myTitle ) && 
              ( ( TexttargetElement === quizQuestions[selectedFour[i]].myPlotU )  || ( MatchPerc > 75.0 ) )   )
          { found = true ; 
            located = i ; 
            // alert(MatchPerc+"|"+TexttargetElement+"|"+quizQuestions[selectedFour[i]].myPlot);
-         } 
+         }
         // alert(MatchPerc+"|"+TexttargetElement+"|"+quizQuestions[selectedFour[i]].myPlot);
 
          
          
      }
     if ( found ===  true ) 
-      { alert(" keep it up ! you are right about title " + thistext + " is indeed " + quizQuestions[selectedFour[located]].myPlotU  );} 
+      { /* alert(" keep it up ! you are right about title " + thistext + " is indeed " + quizQuestions[selectedFour[located]].myPlotU  ); */} 
     else 
-      { alert(" better luck next time"); } 
+      { /* alert(" better luck next time"); */} 
     // here the found is correct either true or false
     attemptedTitles.push(thistext);
     attemptedAnswers.push(found);
@@ -271,19 +274,16 @@ const checkIfItMatches = function(thistext)
 
     if ( found == true ) { correctCount = correctCount + 1 ;}
     lengthArray=attemptedAnswers.length;
-    /* for(j=0;j<lengthArray;j++) 
-     { 
-       console.log(j+"|"+attemptedTitles[j]+"|"+attemptedAnswers[j]+"|"+attemptedPlots[j]);
-     } */
 
      // once selected a button a chance is taken disable all the buttons 
      // only button available is the lets play button
      DisableSelectButtons();
+
      removeThisElementById("MyCounters");
-     $('#movieScreen').append('<iframe src="https://widgets.itunes.apple.com/widget.html?c=us&brc=FFFFFF&blc=FFFFFF&trc=FFFFFF&tlc=FFFFFF&d=&t=&m=movie&e=movie&w=300&h=300&ids=545892907&wt=discovery&partnerId=&affiliate_id=&at=&ct=" frameborder=0 style="overflow-x:hidden;overflow-y:hidden;width:300px;height: 300px;border:0px"></iframe>');
      $('#SideCurtain').prepend('<text id="MyCounters"> Your Score : correct '+correctCount+' out of '+ lengthArray + '</text>');
 
-     console.log(correctCount+"|"+lengthArray);
+     previewUrl = movieInfo(quizQuestions[selectedFour[possibleCorrect]].myTitle);
+
      var thisButton=document.getElementById("Dice"); 
      
      // now that we have got the items selected for the first time set the on clisk function to reuse the
