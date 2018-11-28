@@ -279,9 +279,10 @@ const checkIfItMatches = function(thistext)
      // only button available is the lets play button
      DisableSelectButtons();
 
-     removeThisElementById("MyCounters");
-     $('#SideCurtain').prepend('<text id="MyCounters"> Your Score : correct '+correctCount+' out of '+ lengthArray + '</text>');
+     // removeThisElementById("MyCounters");
+     // $('#SideCurtain').prepend('<text id="MyCounters"> Your Score : correct '+correctCount+' out of '+ lengthArray + '</text>');
 
+     $('#scoreCard').html("<table> <tbody> <tr> <th>Correct</th> <td>"+ correctCount+"</td> </tr> <tr> <th>Questions</th> <td>"+ lengthArray + "</td> </tr> </tbody> </table>");
      previewUrl = movieInfo(quizQuestions[selectedFour[possibleCorrect]].myTitle,found);
 
      var thisButton=document.getElementById("Dice"); 
@@ -290,8 +291,8 @@ const checkIfItMatches = function(thistext)
      // selected 10 
      // user can select another set by using changeset button 
 
-     thisButton.setAttribute("onclick","listit()");
-     thisButton.setAttribute("title","select this for continuing on same set") ; 
+     // thisButton.setAttribute("onclick","listit()");
+     // thisButton.setAttribute("title","select this for continuing on same set") ; 
 
 
 

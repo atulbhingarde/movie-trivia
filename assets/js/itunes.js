@@ -18,8 +18,16 @@ const movieInfo = function (movieName,corrector) {
      { displayString = "You are correct about the title its ";} else 
      { displayString = "You are incorrect about the title its ";}
     $('#movieScreen').html(`<h2>${displayString} : ${trackName}</h2>`);
-    // $('.modal-body').html(`<video src="${previewUrl}" type="video/x-m4v" controls="true" autoplay />`);
-    $('#movieScreen').append("<html>"+`<video src="${previewUrl}" type="video/x-m4v" controls="true" autoplay />`+"</html>");
+    $('.modal-body').html(`<video src="${previewUrl}" type="video/x-m4v" controls="true" autoplay />`);
+    // $('#movieDetails').append("<html>"+`<video src="${previewUrl}" type="video/x-m4v" controls="true" autoplay />`+"</html>");
+    $('#movieScreen').append('<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#movieDetails">Launch demo modal</button>');
+    $('#movieScreen').append('<button id="Dice1" onclick="getMovieQuestions()" type="button" class="btn btn-primary" data-toggle="modal" >Get another set of 10</button>');
+    $('#movieScreen').append('<button id="Dice" onclick="listit()" type="button" class="btn btn-primary" data-toggle="modal" >Continue on same set</button>');
+
+
     return(previewUrl);
   }); 
 }
+
+//<div type="button" id='Dice' class="button3" title="select this for getting new set" onclick=getMovieQuestions()>Lets Play !</div>
+
