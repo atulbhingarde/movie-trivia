@@ -214,7 +214,7 @@ const getMovieQuestions = function() {
       // this button allows you to change the set of 10 
       removeThisElementById("Dice1");
       // now add a dice for getting a new set 
-      $('#answers').append(`<button class="p-3" title="select this for getting new set of 10" onclick="getMovieQuestions()" id="Dice1">ChangeSet</button>`);
+      // $('#answers').append(`<button class="p-3" title="select this for getting new set of 10" onclick="getMovieQuestions()" id="Dice1">ChangeSet</button>`);
      }
   };
 //Prep = function() { getMovieQuestions();  listit();};
