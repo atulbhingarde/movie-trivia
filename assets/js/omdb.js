@@ -23,16 +23,16 @@ const tuneRadioRight = function(MyId,nMybool,nMyTitle) {
 
   } else { console.log("cound not locate"+MyId);}
 };
-const toggleme = function(MyBool){
-  QuestionsEasy = MyBool;
+const toggleme = function(){
+  // QuestionsEasy = MyBool;
   if ( QuestionsEasy === true ) 
    {
 
-     tuneRadioRight("RadioButtonEasy",true,"disabled as selected, when selected plot displayed is as is ");
-     tuneRadioRight("RadioButtonTough",false,"enabled as not selected, when selected plot displayed is bit cryptic !");
+     // tuneRadioRight("RadioButtonEasy",true,"disabled as selected, when selected plot displayed is as is ");
+     // tuneRadioRight("RadioButtonTough",false,"enabled as not selected, when selected plot displayed is bit cryptic !");
 
-     // alert(`its `+QuestionsEasy+` right now will change it to false`) ; 
-     QuestionsEasy = true ;
+     alert(`its `+QuestionsEasy+` right now will change it to false`) ; 
+     QuestionsEasy = false ;
 
      } 
   else 
@@ -40,11 +40,11 @@ const toggleme = function(MyBool){
     
     // already selected option is for tough quesitons
     
-    tuneRadioRight("RadioButtonEasy",false,"enabled as not selected, when selected plot displayed is as is ");
-    tuneRadioRight("RadioButtonTough",true,"disabled as selected, when selected plot displayed is bit cryptic !");
+    // tuneRadioRight("RadioButtonEasy",false,"enabled as not selected, when selected plot displayed is as is ");
+    // tuneRadioRight("RadioButtonTough",true,"disabled as selected, when selected plot displayed is bit cryptic !");
 
-    // alert(`its `+QuestionsEasy+` right now will change it to true`);
-    QuestionsEasy = false;
+    alert(`its `+QuestionsEasy+` right now will change it to true`);
+    QuestionsEasy = true;
 
   } 
   // alert("QuestionsEasy is " + QuestionsEasy ); */
@@ -97,7 +97,7 @@ const removeThisElementById = function(MyId)
 // do initialze the game
 window.addEventListener('load', function () {
     // do stuff when the page has loaded
-    getMovieQuestions();toggleme(true);
+    getMovieQuestions();toggleme();
 }, false);
 const getMovieQuestions = function() {
     const movieQuiz = [];
