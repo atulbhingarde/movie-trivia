@@ -81,9 +81,19 @@ div.content {
 }
 
 /* Modal Dialog */
+
+.modal-content {
+    background-color: #131517 !important;
+    color: #fff;
+}
+.modal-header {
+    border-bottom: 1px solid #6c757d !important;
+}
+
 .modal-dialog video {
     width: 100%;
 }
+
 /* ScoreCard */
 #scoreCard {
     background-color:  #b51f24 !important;
@@ -106,6 +116,18 @@ div.content {
     padding-left: 10px;
 }
 
+/* fix for x-small button for toggle switch */
+.btn-xs {
+    padding: 1px 5px;
+    font-size: 12px;
+    line-height: 1.5;
+    border-radius: 3px;
+}
+#controls label {
+    line-height: 1.5;
+    padding-right: 4px;
+}
+
 /* MEDIA QUERIES */
 @media (max-width: 768px) { 
    
@@ -117,106 +139,4 @@ div.content {
         justify-content: center;
     }
     
-}
-*[id ^= '1Dice'] {
-    background-color: rgb(78, 71, 139); /* Green */
-    border: none;
-    color: white;
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    border-radius: 15px;
-    font-size: 30px;
-}
-*[id ^= 'SelectThis']{
-    background-color: gray; /* Green */
-    border: none;
-    color: white;
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 30px;
-    border-radius: 10px;
-    margin: 5px ;
-}
-
-*[id ^= 'MyPlot']{
-    background-color: gray; /* Green */
-    border: none;
-    color: white;
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 30px;
-    border-radius: 15px;
-    margin: 5px ;
-}
-*[id ^= 'MyCounters']{
-    background-color: gray; /* Green */
-    border: none;
-    color: white;
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 30px;
-    border-radius: 10px;
-    margin: 5px ;
-}
-*[id ^= 'RadioButton']{
-    background-color: gray; /* Green */
-    border: none;
-    color: white;
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 30px;
-    border-radius: 10px;
-    margin: 5px ;
-}
-*[id ^= 'MyRb']{
-    background-color: gray; /* Green */
-    border: none;
-    color: white;
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 30px;
-    border-radius: 10px;
-    margin: 5px ;
-}
-
-button:disabled,
-button[disabled]{
-    border: 1px solid #999999;
-    background-color: #cccccc;
-    color: #666666;
-  }
-  .tooltip {
-    position: relative;
-    display: inline-block;
-    border-bottom: 1px dotted black;
-}
-
-.tooltip .tooltiptext {
-    visibility: hidden;
-    width: 120px;
-    background-color: black;
-    color: #fff;
-    text-align: center;
-    border-radius: 6px;
-    padding: 5px 0;
-
-    /* Position the tooltip */
-    position: absolute;
-    z-index: 1;
-}
-
-.tooltip:hover .tooltiptext {
-    visibility: visible;
 }

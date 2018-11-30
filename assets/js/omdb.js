@@ -12,39 +12,54 @@ ButtonText= "SelectThis";
 hasCodeRunBefore = false ; 
 QuestionsEasy = true ; 
 const tuneRadioRight = function(MyId,nMybool,nMyTitle) {
-  // var tthisandthat = $('*[id ^= MyId]');
-  var tthisandthat = document.getElementById(MyId);
-  if ( tthisandthat !== null ) {
+  var tthisandthat = $('*[id ^= MyId]');
+  if ( tthisandthat[0] !== null ) {
 
   
   // $(tthisandthat).prop('disabled',nMybool);
-  $(tthisandthat).prop('title',nMyTitle);
-  $(tthisandthat).prop('disabled',nMybool);
+  $(tthisandthat[0]).prop('title',nMyTitle);
+  $(tthisandthat[0]).prop('disabled',nMybool);
 
   } else { console.log("cound not locate"+MyId);}
 };
-const toggleme = function(){
-  // QuestionsEasy = MyBool;
+const toggleme2 = function() { if ( QuestionsEasy === true ) { QuestionsEasy = false ; } else { QuestionsEasy = true ; } }; 
+
+const toggleme = function(MyBool){
+  QuestionsEasy = MyBool;
   if ( QuestionsEasy === true ) 
    {
 
-     // tuneRadioRight("RadioButtonEasy",true,"disabled as selected, when selected plot displayed is as is ");
-     // tuneRadioRight("RadioButtonTough",false,"enabled as not selected, when selected plot displayed is bit cryptic !");
+     thisandthat = $('*[id ^= "RadioButtonEasy"]');
+     $(thisandthat).prop('title',"disabled as selected, when selected plot displayed is as is ");
+     $(thisandthat).prop('disabled',true);
 
-     alert(`its `+QuestionsEasy+` right now will change it to false`) ; 
-     QuestionsEasy = false ;
+     thisandthat = $('*[id ^= "RadioButtonTough"]');
+     $(thisandthat).prop('title',"enabled as not yet selected, when selected plot displayed is bit cryptic !");
+     $(thisandthat).prop('disabled',false);
+     /* tuneRadioRight("RadioButtonEasy",true,"Disabled");
+     tuneRadioRight("RadioButtonTough",false,"Enabaled"); */
+
+     // alert(`its `+QuestionsEasy+` right now will change it to false`) ; 
+     QuestionsEasy = true ;
 
      } 
   else 
    { 
     
     // already selected option is for tough quesitons
-    
-    // tuneRadioRight("RadioButtonEasy",false,"enabled as not selected, when selected plot displayed is as is ");
-    // tuneRadioRight("RadioButtonTough",true,"disabled as selected, when selected plot displayed is bit cryptic !");
+    thisandthat = $('*[id ^= "RadioButtonEasy"]');
+    $(thisandthat).prop('title',"enabled as not yet selected, when selected plot displayed is as is ! ");
+    $(thisandthat).prop('disabled',false); 
+    // tuneRadioRight("RadioButtonEasy",false,"Enabled");
 
-    alert(`its `+QuestionsEasy+` right now will change it to true`);
-    QuestionsEasy = true;
+    thisandthat = $('*[id ^= "RadioButtonTough"]');
+    
+    $(thisandthat).prop('title',"disabled as selected, when selected plot displayed is bit cryptic !");
+    $(thisandthat).prop('disabled',true );
+    // tuneRadioRight("RadioButtonTough",true,"Disabled");
+
+    // alert(`its `+QuestionsEasy+` right now will change it to true`);
+    QuestionsEasy = false;
 
   } 
   // alert("QuestionsEasy is " + QuestionsEasy ); */
@@ -97,7 +112,8 @@ const removeThisElementById = function(MyId)
 // do initialze the game
 window.addEventListener('load', function () {
     // do stuff when the page has loaded
-    getMovieQuestions();toggleme();
+    getMovieQuestions();
+    toggleme(true);
 }, false);
 const getMovieQuestions = function() {
     const movieQuiz = [];
@@ -194,7 +210,7 @@ const getMovieQuestions = function() {
 
       // now display the plot that was selected 
       // $('#movieScreen').html(`<p class="p-3" id="MyPlot">${quizQuestions[SelectedHonor].myPlot}</p>`);
-      $('#movieScreen').html(`<p class="p-3" id="MyPlot">`+getFiltered+`</p>`);
+      $('#movieScreen').html(`<span id="MyPlot" class="p-3" >`+getFiltered+`</span>`);
 
     
 
@@ -206,20 +222,18 @@ const getMovieQuestions = function() {
         // remove the button if it exists 
         removeThisElementById(TempButtonId);
         // set the button with answer number appended for all buttons         
-        $('#answers').prepend(`<button class="p-3" onclick="OnSelection(this)" id="`+TempButtonId+`">${quizQuestions[selectedFour[ButtonsInd]].myTitle}</button>`);
-        
-
+        $('#answers').append(`<button id="${TempButtonId}" class="btn btn-secondary m-1" onclick="OnSelection(this)">${quizQuestions[selectedFour[ButtonsInd]].myTitle}</button>`);
        }
       // check and remove the dice for change set 
       // this button allows you to change the set of 10 
       removeThisElementById("Dice1");
       // now add a dice for getting a new set 
-      // $('#answers').append(`<button class="p-3" title="select this for getting new set of 10" onclick="getMovieQuestions()" id="Dice1">ChangeSet</button>`);
+      //$('#answers').append(`<button class="p-3" title="select this for getting new set of 10" onclick="getMovieQuestions()" id="Dice1">ChangeSet</button>`);
      }
   };
-//Prep = function() { getMovieQuestions();  listit();};
-const OnSelection = function(link) 
-{
+
+  //Prep = function() { getMovieQuestions();  listit();};
+const OnSelection = function(link) {
   var tempText = link.innerText ; 
   // check if the answer matches and further update the conters etc.
   checkIfItMatches(tempText);
@@ -251,59 +265,66 @@ const checkIfItMatches = function(thistext)
         if ( ( TexttargetElement === quizQuestions[selectedFour[i]].myPlotU )  || ( MatchPerc > 75.0 ) ) 
          { possibleCorrect = i ;}
 
-
         if ( ( thistext === quizQuestions[selectedFour[i]].myTitle ) && 
              ( ( TexttargetElement === quizQuestions[selectedFour[i]].myPlotU )  || ( MatchPerc > 75.0 ) )   )
          { found = true ; 
            located = i ; 
            // alert(MatchPerc+"|"+TexttargetElement+"|"+quizQuestions[selectedFour[i]].myPlot);
-         }
+         } 
         // alert(MatchPerc+"|"+TexttargetElement+"|"+quizQuestions[selectedFour[i]].myPlot);
 
          
          
      }
-    if ( found ===  true ) 
-      { /* alert(" keep it up ! you are right about title " + thistext + " is indeed " + quizQuestions[selectedFour[located]].myPlotU  ); */} 
-    else 
-      { /* alert(" better luck next time"); */} 
+
+    let correctTitle = quizQuestions[selectedFour[possibleCorrect]].myTitle;
+    movieInfo(correctTitle);
+
+    if (found === true) {
+      $('#movieScreen').html(`<div class="p-3">CORRECT<br> The answer is "${correctTitle}"</div><div id="actionBtns"></div>`);
+    } else { 
+      $('#movieScreen').html(`<div class="p-3">INCORRECT<br> The answer is "${correctTitle}"</div><div id="actionBtns"></div>`);
+    } 
+    $('#movieScreen #actionBtns').append('<button type="button" class="btn btn-secondary m-1" data-toggle="modal" data-target="#movieDetails">Watch the Trailer</button>');
+    $('#movieScreen #actionBtns').append('<button id="Dice" onclick="listit()" type="button" class="btn btn-secondary m-1" data-toggle="modal" >Next Question</button>');
+    $('#movieScreen #actionBtns').append('<button id="Dice1" onclick="getMovieQuestions()" type="button" class="btn btn-secondary m-1" data-toggle="modal" >New Set of Questions</button>');
+    
     // here the found is correct either true or false
     attemptedTitles.push(thistext);
     attemptedAnswers.push(found);
     attemptedPlots.push(TexttargetElement);
 
-    if ( found === true ) { correctCount = correctCount + 1 ;}
+    if ( found == true ) { correctCount = correctCount + 1 ;}
     lengthArray=attemptedAnswers.length;
+    /* for(j=0;j<lengthArray;j++) 
+     { 
+       console.log(j+"|"+attemptedTitles[j]+"|"+attemptedAnswers[j]+"|"+attemptedPlots[j]);
+     } */
 
      // once selected a button a chance is taken disable all the buttons 
      // only button available is the lets play button
      DisableSelectButtons();
+     removeThisElementById("MyCounters");
+     
+     //$('#SideCurtain').prepend('<text id="MyCounters"> Your Score : correct '+correctCount+' out of '+ lengthArray + '</text>');
+     $('#scoreCard').html(`<table><tbody><tr><th>Correct</th><td>${correctCount}</td></tr><tr><th>Questions</th><td>${lengthArray}</td></tr></tbody></table>`);
 
-     // removeThisElementById("MyCounters");
-     // $('#SideCurtain').prepend('<text id="MyCounters"> Your Score : correct '+correctCount+' out of '+ lengthArray + '</text>');
-
-     $('#scoreCard').html("<table> <tbody> <tr> <th>Correct</th> <td>"+ correctCount+"</td> </tr> <tr> <th>Questions</th> <td>"+ lengthArray + "</td> </tr> </tbody> </table>");
-     previewUrl = movieInfo(quizQuestions[selectedFour[possibleCorrect]].myTitle,found);
-
+     console.log(correctCount+"|"+lengthArray);
      var thisButton=document.getElementById("Dice"); 
      
      // now that we have got the items selected for the first time set the on clisk function to reuse the
      // selected 10 
      // user can select another set by using changeset button 
 
-     // thisButton.setAttribute("onclick","listit()");
-     // thisButton.setAttribute("title","select this for continuing on same set") ; 
+     thisButton.setAttribute("onclick","listit()");
+     thisButton.setAttribute("title","select this for continuing on same set") ; 
 
 
 
 
 };
-const DisableSelectButtons = function()
-{
-  // here list all buttons and disable them for heavens sake !  will ya ?
- 
-  var thisandthat = $('*[id ^= "SelectThis"]');
-  // console.log(thisandthat) ; 
- 
-  for(i=0;i<thisandthat.length;i++) $(thisandthat[i]).prop('disabled',true);
+
+// Disable Buttons in #answers
+const DisableSelectButtons = function() {
+  $('#answers button').prop('disabled',true);
 };

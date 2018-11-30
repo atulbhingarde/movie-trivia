@@ -1,33 +1,16 @@
-const movieInfo = function (movieName,corrector) {
+const movieInfo = function(movieName) {
   //get data from itunes api
-  const queryURL1 = `https://itunes.apple.com/search?media=movie&entity=movie&term=`+'"'+movieName+'"'+`&attribute=featureFilmTerm`;
-  
-  // console.log(queryURL1);
+  const queryURL = `https://itunes.apple.com/search?media=movie&entity=movie&term=${movieName}&attribute=featureFilmTerm`;
   $.ajax({
-    url: queryURL1,
+    url: queryURL,
     method: 'GET'
   }).then(function (response) {
     response = JSON.parse(response);
     const movie = response.results[0];
     const trackName = movie.trackName;
     const previewUrl = movie.previewUrl;
-    
-    console.log(trackName);
-    // console.log("Preview url is " + movie.previewUrl);
-    if ( corrector === true ) 
-     { displayString = "You are correct about the title its ";} else 
-     { displayString = "You are incorrect about the title its ";}
-    $('#movieScreen').html(`<h2>${displayString} : ${trackName}</h2>`);
-    $('.modal-body').html(`<video src="${previewUrl}" type="video/x-m4v" controls="true" autoplay />`);
-    // $('#movieDetails').append("<html>"+`<video src="${previewUrl}" type="video/x-m4v" controls="true" autoplay />`+"</html>");
-    $('#movieScreen').append('<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#movieDetails">Launch demo modal</button>');
-    $('#movieScreen').append('<button id="Dice1" onclick="getMovieQuestions()" type="button" class="btn btn-primary" data-toggle="modal" >Get another set of 10</button>');
-    $('#movieScreen').append('<button id="Dice" onclick="listit()" type="button" class="btn btn-primary" data-toggle="modal" >Continue on same set</button>');
 
-
-    return(previewUrl);
+    $('#modalTitle').html(`${trackName}`);
+    $('.modal-body').html(`<video src="${previewUrl}" type="video/x-m4v" controls="true" />`);
   }); 
 }
-
-//<div type="button" id='Dice' class="button3" title="select this for getting new set" onclick=getMovieQuestions()>Lets Play !</div>
-
