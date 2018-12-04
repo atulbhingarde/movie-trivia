@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link rel="stylesheet" href="./assets/css/style.css">
     <title>Movie-Trivia-App</title>
+    <script>const MyDebug=false;</script>
 </head>
 
 <body>
@@ -25,7 +26,13 @@
                 <div class="col-md-8 p-3 backstage">
                     <div id="movieScreen" class="text-center theater-screen d-flex flex-column align-items-center justify-content-center"></div>
                     <div id="controls" class="text-white pt-3">
-                        <label for="ckbGameMode">Hard Mode</label><input id="ckbGameMode" type="checkbox" onclick=toggleme2() >
+                        <!--label for="ckbGameMode">Hard Mode</label><input id="ckbGameMode" type="checkbox" onclick=toggleme2() -->
+                          <select title="will be active while selecting the next choice option" id="easeNess" class="btn btn-secondary custom-select" aria-labelledby="dropdownMenuButton" onchange="toggleme2()">
+                            <!-- the first option is selected by default -->
+                            <option selected value="0">Easy</option>
+                            <option value="1">Tough</option>
+                            <option value="2">Real Tough</option>
+                          </select>
                     </div>
                     <div id="scoreCard">
                         <table>

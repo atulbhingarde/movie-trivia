@@ -9,8 +9,9 @@ var correctCount = 0;
 const numQuestions = 10;
 const selectedFour = [] ;
 ButtonText= "SelectThis";
-hasCodeRunBefore = false ; 
-QuestionsEasy = true ; 
+hasCodeRunBefore = false; 
+QuestionsEasy = true; 
+nQuestionsEasy = 0;
 const tuneRadioRight = function(MyId,nMybool,nMyTitle) {
   var tthisandthat = $('*[id ^= MyId]');
   if ( tthisandthat[0] !== null ) {
@@ -22,7 +23,19 @@ const tuneRadioRight = function(MyId,nMybool,nMyTitle) {
 
   } else { console.log("cound not locate"+MyId);}
 };
-const toggleme2 = function() { if ( QuestionsEasy === true ) { QuestionsEasy = false ; } else { QuestionsEasy = true ; } }; 
+const toggleme2 = function() { 
+                              jj = $('#easeNess') ;  
+                              // alert(jj.val());
+                              /* alert($('#easeNess').value()) */
+                              nQuestionsEasy = parseInt(jj.val());
+                              MyDebug && alert(nQuestionsEasy) ; 
+                              if ( QuestionsEasy === true ) 
+                                {
+                                 QuestionsEasy = false ; 
+                                } 
+                              else 
+                                { QuestionsEasy = true ; } 
+                            }; 
 
 const toggleme = function(MyBool){
   QuestionsEasy = MyBool;
@@ -88,18 +101,24 @@ const DoesItMatch = function(WithThatString,ThisString) {
   // console.log("Matching " + percentMatch +"|" +ThisString + "|" + WithThatString );
   return percentMatch;
 };
-const MyFilter = function(targetString, referenceString){
+const MyFilter = function(targetString, referenceString, numFilter){
   filteredString = targetString ;
   refArray = referenceString.split(/ |,|:|;|{|}|'|\(|\)|-|\\\\./);
-  for(mWords=0;mWords<refArray.length;mWords++) 
+  lenArray=refArray.length;
+  for(mWords=0;mWords<lenArray;mWords++) 
    {
     if ( refArray[mWords].length > 2 ) {
     regEx = new RegExp(refArray[mWords], "ig");  
-    filteredString = filteredString.replace(regEx,"*".repeat(refArray[mWords].length)); }
+    if ( numFilter === 1 ) 
+     { filteredString=filteredString.replace(regEx,"*".repeat(refArray[mWords].length)); }
+    else 
+     { 
+       filteredString=filteredString.replace(regEx,"*");
+     }
   // console.log("here title" + referenceString);
   if ( filteredString !==  targetString ) { /* console.log("did replace"); */ } }
   return filteredString;
-}
+}};
 const removeThisElementById = function(MyId)
  {
    targetElement = document.getElementById(MyId) ; 
@@ -178,10 +197,10 @@ const getMovieQuestions = function() {
     if ( quizQuestions[SelectedHonor]  !== undefined ) 
      {
       getFiltered = quizQuestions[SelectedHonor].myPlot ; 
-      if ( QuestionsEasy === false )
+      if ( ( QuestionsEasy === false ) || ( nQuestionsEasy > 0 ) ) 
        { 
          // console.log("will filter");
-         getFiltered = MyFilter(quizQuestions[SelectedHonor].myPlot,quizQuestions[SelectedHonor].myTitle);
+         getFiltered = MyFilter(quizQuestions[SelectedHonor].myPlot,quizQuestions[SelectedHonor].myTitle,nQuestionsEasy);
          // console.log("here filtered" + getFiltered);
        } else { /* console.log("will not filter"); */}
 
@@ -196,9 +215,9 @@ const getMovieQuestions = function() {
         if ( selectedFour.indexOf(tempHold) === -1 ) { selectedFour.push(tempHold) ;  }
 
       }
-      for(i=0; ( i<selectedFour.length ) && ( QuestionsEasy === false );i++) 
+      for(i=0; ( i<selectedFour.length ) && ( ( QuestionsEasy === false ) || ( QuestionsEasy > 0 ) ) ;i++) 
       { 
-        tgetFiltered = MyFilter(quizQuestions[i].myPlot,quizQuestions[i].myTitle);
+        tgetFiltered = MyFilter(quizQuestions[i].myPlot,quizQuestions[i].myTitle,nQuestionsEasy);
         quizQuestions[i].myPlot = tgetFiltered ; 
 
       }
