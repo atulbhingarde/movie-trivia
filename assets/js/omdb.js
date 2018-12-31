@@ -6,12 +6,12 @@ attemptedPlots = [] ;
 attemptedYourTitles = [] ; 
 attemptedAnswers = [] ; 
 var correctCount = 0;
-const numQuestions = 4;
+const numQuestions = 10;
 const selectedFour = [] ;
 ButtonText= "SelectThis";
 hasCodeRunBefore = false; 
 QuestionsEasy = true; 
-FirstFourAsIs = true; // this option selects first four, useful for debugging the situation 
+FirstFourAsIs = false; // this option selects first four, useful for debugging the situation 
 nQuestionsEasy = 0;
 const tuneRadioRight = function(MyId,nMybool,nMyTitle) {
   var tthisandthat = $('*[id ^= MyId]');
