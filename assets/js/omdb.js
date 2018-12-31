@@ -6,11 +6,12 @@ attemptedPlots = [] ;
 attemptedYourTitles = [] ; 
 attemptedAnswers = [] ; 
 var correctCount = 0;
-const numQuestions = 10;
+const numQuestions = 4;
 const selectedFour = [] ;
 ButtonText= "SelectThis";
 hasCodeRunBefore = false; 
 QuestionsEasy = true; 
+FirstFourAsIs = true; // this option selects first four, useful for debugging the situation 
 nQuestionsEasy = 0;
 const tuneRadioRight = function(MyId,nMybool,nMyTitle) {
   var tthisandthat = $('*[id ^= MyId]');
@@ -103,22 +104,29 @@ const DoesItMatch = function(WithThatString,ThisString) {
 };
 const MyFilter = function(targetString, referenceString, numFilter){
   filteredString = targetString ;
+  MyDebug && alert("filter is sret to "+numFilter);
   refArray = referenceString.split(/ |,|:|;|{|}|'|\(|\)|-|\\\\./);
-  lenArray=refArray.length;
-  for(mWords=0;mWords<lenArray;mWords++) 
+  lenArray = refArray.length;
+  MyDebug && alert("we are filtering" + referenceString + " \n " + refArray);
+  for( let mWordss=0 ; mWordss < lenArray ; mWordss++) 
    {
-    if ( refArray[mWords].length > 2 ) {
-    regEx = new RegExp(refArray[mWords], "ig");  
-    if ( numFilter === 1 ) 
-     { filteredString=filteredString.replace(regEx,"*".repeat(refArray[mWords].length)); }
+    MyDebug && alert("we are filtering " + refArray[mWordss]+" | "+ lenArray);
+    if ( refArray[mWordss].length > 2 ) {
+    regEx = new RegExp(refArray[mWordss], "ig");  
+    if ( numFilter === 1 )
+     { 
+      MyDebug && alert("here 123 "+refArray[mWordss]);
+      MyDebug && alert(refArray[mWordss]);filteredString=filteredString.replace(regEx,"*".repeat(refArray[mWordss].length)); }
     else 
      { 
        filteredString=filteredString.replace(regEx,"*");
      }
   // console.log("here title" + referenceString);
+    }
   if ( filteredString !==  targetString ) { /* console.log("did replace"); */ } }
   return filteredString;
-}};
+
+};
 const removeThisElementById = function(MyId)
  {
    targetElement = document.getElementById(MyId) ; 
@@ -144,16 +152,27 @@ const getMovieQuestions = function() {
     // Select X number of movies from movieList array and add them to the movieQuiz array
         
     // get 10 unique numbers from long list we have
+    if ( FirstFourAsIs  === false ) { 
+
+    Mydebug && alert(" will select at random");
     while ( SelectrandomOutOfMax.length < numQuestions )
      {
          currentStart=0;
          TempSelectrandomOutOf = Math.floor(Math.random() * movieList.length );
          if ( SelectrandomOutOfMax.indexOf(TempSelectrandomOutOf) == -1 ) { SelectrandomOutOfMax.push(TempSelectrandomOutOf) ;  }
      }
+    } else 
+    {
+      MyDebug && alert(" will select from first four");
+      for(var fixedSample=0;fixedSample < numQuestions ; fixedSample++) SelectrandomOutOfMax.push(fixedSample);
+      
+    }
+    MyDebug && alert(" there should be four here" + SelectrandomOutOfMax );
     quizQuestions.length = 0 ; 
     for ( i = 0; ( i < numQuestions ) ; i++) {
-        queryURL = `https://www.omdbapi.com/?apikey=8acace67&t=${movieList[SelectrandomOutOfMax[i]]}`;
-
+        queryURL = `https://www.omdbapi.com/?apikey=f1827804&t=${movieList[SelectrandomOutOfMax[i]]}`;
+        console.log(queryURL+" | " + SelectrandomOutOfMax[i]);
+        MyDebug && alert(movieList[SelectrandomOutOfMax[i]]+" | "+i+" | "+SelectrandomOutOfMax[i]);
         $.ajax({
             url: queryURL,
             method: 'GET'
@@ -176,8 +195,8 @@ const getMovieQuestions = function() {
               
                if ( quizQuestions.length === i ) { 
                    for(j=0;j<quizQuestions.length;j++) 
-                    { /* console.log(" hi there 1 " + j + " "+ quizQuestions[j].myTitle+"|"+objMovie.myTitle) ; */ } 
-                   listit(); }    
+                    { MyDebug && alert(" hi there 1 " + j + " "+ quizQuestions[j].myTitle+"|"+objMovie.myTitle+"|"+objMovie.myPlot) ;  } 
+                    listit(); }    
             }
         });
     }
@@ -191,9 +210,11 @@ const getMovieQuestions = function() {
     selectedFour.length = 0 ; 
     // select one item that is correct title and plot
     var SelectedHonor = Math.floor(Math.random() * numQuestions);
- 
-    
-    
+    if ( FirstFourAsIs === true ) { SelectedHonor = 0 ;  } 
+    $('#easeNess').prop('disabled', true); 
+    $('#easeNess').prop('title',"ummm I am disabled now");
+    $('#easeNess').prop('title',"you can, use this choice to make it tough to get clues that are cryptic, when you get a chance to choose option !");
+
     if ( quizQuestions[SelectedHonor]  !== undefined ) 
      {
       getFiltered = quizQuestions[SelectedHonor].myPlot ; 
@@ -215,7 +236,7 @@ const getMovieQuestions = function() {
         if ( selectedFour.indexOf(tempHold) === -1 ) { selectedFour.push(tempHold) ;  }
 
       }
-      for(i=0; ( i<selectedFour.length ) && ( ( QuestionsEasy === false ) || ( QuestionsEasy > 0 ) ) ;i++) 
+      for(i=0; ( i<selectedFour.length ) && ( ( QuestionsEasy === false ) || ( nQuestionsEasy > 0 ) ) ;i++) 
       { 
         tgetFiltered = MyFilter(quizQuestions[i].myPlot,quizQuestions[i].myTitle,nQuestionsEasy);
         quizQuestions[i].myPlot = tgetFiltered ; 
@@ -225,7 +246,11 @@ const getMovieQuestions = function() {
 
       tempHold= Math.floor(Math.random() * MaxNumInQList);
       // swap the last item with the one in hand i.e. tempHold
-      kk=selectedFour[tempHold];  selectedFour[tempHold]=selectedFour[0]; selectedFour[0] = kk ; 
+      if ( FirstFourAsIs === false ) 
+      { kk=selectedFour[tempHold];  
+        selectedFour[tempHold]=selectedFour[0]; 
+        selectedFour[0] = kk ; 
+      }
 
       // now display the plot that was selected 
       // $('#movieScreen').html(`<p class="p-3" id="MyPlot">${quizQuestions[SelectedHonor].myPlot}</p>`);
@@ -307,7 +332,9 @@ const checkIfItMatches = function(thistext)
     $('#movieScreen #actionBtns').append('<button type="button" class="btn btn-secondary m-1" data-toggle="modal" data-target="#movieDetails">Watch the Trailer</button>');
     $('#movieScreen #actionBtns').append('<button id="Dice" onclick="listit()" type="button" class="btn btn-secondary m-1" data-toggle="modal" >Next Question</button>');
     $('#movieScreen #actionBtns').append('<button id="Dice1" onclick="getMovieQuestions()" type="button" class="btn btn-secondary m-1" data-toggle="modal" >New Set of Questions</button>');
-    
+    $('#easeNess').prop('disabled', false); 
+    $('#easeNess').prop('title',"use this choice to make it tough to get clues that are cryptic !");
+
     // here the found is correct either true or false
     attemptedTitles.push(thistext);
     attemptedAnswers.push(found);
