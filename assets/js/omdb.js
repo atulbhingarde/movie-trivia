@@ -154,7 +154,7 @@ const getMovieQuestions = function() {
     // get 10 unique numbers from long list we have
     if ( FirstFourAsIs  === false ) { 
 
-    Mydebug && alert(" will select at random");
+    MyDebug && alert(" will select at random");
     while ( SelectrandomOutOfMax.length < numQuestions )
      {
          currentStart=0;
